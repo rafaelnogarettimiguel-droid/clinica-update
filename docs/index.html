@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClinicaUpdate — 10 May 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#1a1c22;--ink2:#3a3d4a;--ink3:#6b7080;--paper:#f8f6f0;--paper2:#f0ede4;--rule:#ddd8cc;--red:#c0392b;--blue:#1a3d6b;--gold:#9a6b00}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7}
+.masthead{background:var(--ink);color:var(--paper);padding:0 40px;display:flex;align-items:stretch;border-bottom:3px solid var(--red)}
+.masthead-left{flex:1;padding:26px 0;border-right:1px solid #333}
+.masthead-right{padding:26px 0 26px 32px;display:flex;flex-direction:column;justify-content:center;gap:5px;min-width:220px}
+.pub-name{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:600;letter-spacing:-0.5px;line-height:1;color:#fff}
+.pub-name span{color:var(--red)}
+.pub-sub{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:#888;letter-spacing:0.15em;text-transform:uppercase;margin-top:6px}
+.meta-item{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:#888;letter-spacing:0.06em}
+.meta-item strong{color:#ccc}
+.page{max-width:900px;margin:0 auto;padding:40px 24px 80px}
+.section-head{display:flex;align-items:baseline;gap:16px;margin-bottom:22px;padding-bottom:10px;border-bottom:2px solid var(--ink)}
+.section-head h2{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:600}
+.section-head .count{font-family:'IBM Plex Mono',monospace;font-size:0.66rem;color:var(--ink3);letter-spacing:0.08em}
+.article{background:#fff;border:1px solid var(--rule);border-left:4px solid transparent;padding:22px 24px;margin-bottom:14px;transition:border-left-color .2s,box-shadow .2s}
+.article:hover{border-left-color:var(--red);box-shadow:2px 4px 18px rgba(0,0,0,0.07)}
+.art-meta{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.07em;text-transform:uppercase;padding:2px 7px;border-radius:2px;font-weight:500}
+.tag-rct{background:#e8f0ff;color:#1a3d8f;border:1px solid #b8ceff}
+.tag-meta{background:#e8f8ee;color:#1a6b3c;border:1px solid #a8ddb8}
+.tag-review{background:#fff8e0;color:#7a5200;border:1px solid #f0d880}
+.tag-obs{background:var(--paper2);color:var(--ink2);border:1px solid var(--rule)}
+.tag-j{background:var(--paper2);color:var(--ink2);border:1px solid var(--rule)}
+.tag-y{background:transparent;color:var(--ink3);border:none;font-size:0.63rem}
+.tag-topic{background:#f5e8ff;color:#5a1a8f;border:1px solid #ddb8ff}
+.art-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;color:var(--ink);line-height:1.35;margin-bottom:10px}
+.art-summary{font-size:0.87rem;line-height:1.78;color:var(--ink2);margin-bottom:13px}
+.art-footer{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.art-link{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--blue);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px;transition:color .15s}
+.art-link:hover{color:var(--red)}
+.art-authors{font-size:0.72rem;color:var(--ink3);font-style:italic;flex:1}
+.archive-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:4px}
+.archive-card{background:#fff;border:1px solid var(--rule);padding:14px 16px;text-decoration:none;color:var(--ink);transition:border-color .15s,box-shadow .15s;display:block}
+.archive-card:hover{border-color:var(--red);box-shadow:1px 3px 10px rgba(0,0,0,0.06)}
+.archive-date{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--ink3);margin-bottom:4px}
+.archive-label{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:600}
+.archive-count{font-family:'IBM Plex Mono',monospace;font-size:0.63rem;color:var(--ink3);margin-top:4px}
+.divider{border:none;border-top:1px solid var(--rule);margin:32px 0}
+.footer{background:var(--ink);color:#555;padding:18px 40px;font-family:'IBM Plex Mono',monospace;font-size:0.67rem;letter-spacing:0.04em;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.footer a{color:#777}
+@media(max-width:600px){.masthead{padding:0 18px;flex-direction:column}.masthead-right{padding:0 0 18px;border:none}.page{padding:22px 14px 60px}.article{padding:16px 14px}.pub-name{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<div class="masthead">
+  <div class="masthead-left">
+    <div class="pub-name">Clínica<span>Update</span></div>
+    <div class="pub-sub">// curadoria semanal em medicina interna</div>
+  </div>
+  <div class="masthead-right">
+    <div class="meta-item"><strong>Edição</strong>&nbsp; 10 May 2026</div>
+    <div class="meta-item"><strong>Fontes</strong>&nbsp; PubMed · NEJM · Lancet · JAMA</div>
+    <div class="meta-item"><strong>Período</strong>&nbsp; últimos 90 dias</div>
+  </div>
+</div>
+<div class="page">
+  <div class="section-head">
+    <h2>Curadoria da semana</h2>
+    <span class="count">8 artigos selecionados · 10 de may de 2026</span>
+  </div>
+  
+    <div class="article">
+      <div class="art-meta">
+        <span class="tag tag-rct">RCT</span>
+        <span class="tag tag-j">The New England journal of medicine</span>
+        <span class="tag tag-y">2026 Feb 19</span>
+        <span class="tag tag-topic">ICC</span>
+      </div>
+      <div class="art-title">Transcatheter or Surgical Aortic-Valve Replacement in Low-Risk Patients at 7 Years</div>
+      <div class="art-summary">BACKGROUND: Five-year data from the PARTNER 3 trial showed that among low-risk patients with severe, symptomatic aortic stenosis, outcomes were similar among patients who had undergone transcatheter aortic-valve replacement (TAVR) and those who had undergone surgical aortic-valve replacement. Longer-term assessments of clinical outcomes and valve durability are needed. METHODS: Patients were randomly assigned in a 1:1 ratio to undergo transfemoral TAVR or surgery. The first primary end point was a nonhierarchical composite of death, stroke, or rehospitalization related to the procedure, the valve, or heart failure. The second primary end point was a hierarchical composite of death, disabling stroke, nondisabling stroke, and the number of rehospitalization days related to the procedure, the valve, or heart failure, analyzed with the use of a win ratio analysis. Clinical, echocardiographic…</div>
+      <div class="art-footer">
+        <a class="art-link" href="https://doi.org/10.1056/NEJMoa2509766" target="_blank">↗ Artigo completo (PubMed)</a>
+        <div class="art-authors">Leon MB, Mack MJ, Pibarot P et al. · 2026 Feb 19</div>
+      </div>
+    </div>
+
+    <div class="article">
+      <div class="art-meta">
+        <span class="tag tag-rct">RCT</span>
+        <span class="tag tag-j">The New England journal of medicine</span>
+        <span class="tag tag-y">2026 Mar 12</span>
+        <span class="tag tag-topic">TEP/TVP</span>
+      </div>
+      <div class="art-title">Bleeding Risk with Apixaban vs. Rivaroxaban in Acute Venous Thromboembolism</div>
+      <div class="art-summary">BACKGROUND: Apixaban and rivaroxaban are the oral anticoagulants most frequently used to treat acute venous thromboembolism. However, uncertainty remains about the difference in bleeding risk between the two medications. METHODS: In an international trial with a prospective, randomized, open-label, blinded end-point design, we assigned, in a 1:1 ratio, eligible patients with acute symptomatic pulmonary embolism or proximal deep-vein thrombosis to receive apixaban or rivaroxaban for 3 months. Apixaban was given at a dose of 10 mg twice daily for 7 days followed by 5 mg twice daily, and rivaroxaban was given at a dose of 15 mg twice daily for 21 days followed by 20 mg daily. The primary outcome was clinically relevant bleeding, a composite of major bleeding or clinically relevant nonmajor bleeding, as defined according to the International Society on Thrombosis and Haemostasis, during the …</div>
+      <div class="art-footer">
+        <a class="art-link" href="https://doi.org/10.1056/NEJMoa2510703" target="_blank">↗ Artigo completo (PubMed)</a>
+        <div class="art-authors">Castellucci LA, Chen VM, Kovacs MJ et al. · 2026 Mar 12</div>
+      </div>
+    </div>
+
+    <div class="article">
+      <div class="art-meta">
+        <span class="tag tag-rct">RCT</span>
+        <span class="tag tag-j">The New England journal of medicine</span>
+        <span class="tag tag-y">2026 Feb 12</span>
+        <span class="tag tag-topic">HAS</span>
+      </div>
+      <div class="art-title">A Phase 3 Trial of Atacicept in Patients with IgA Nephropathy</div>
+      <div class="art-summary">BACKGROUND: IgA nephropathy, the most common primary glomerulopathy worldwide, is a kidney disorder of B-cell origin characterized by mesangial accumulation of IgA-containing immune complexes. In at least 50% of patients, IgA nephropathy leads to kidney failure or death within 10 to 20 years after diagnosis. Atacicept is a native human transmembrane activator and calcium-modulator and cyclophilin-ligand interactor (TACI)-Fc fusion protein that inhibits two key immunoregulatory cytokines - B-cell activating factor (BAFF) and a proliferation-inducing ligand (APRIL) - that are thought to be central to the pathophysiology of IgA nephropathy. METHODS: In this ongoing, phase 3, multicenter, double-blind, randomized, placebo-controlled trial, we assigned patients with IgA nephropathy in a 1:1 ratio to receive atacicept at a dose of 150 mg once weekly, administered subcutaneously by patients at …</div>
+      <div class="art-footer">
+        <a class="art-link" href="https://doi.org/10.1056/NEJMoa2510198" target="_blank">↗ Artigo completo (PubMed)</a>
+        <div class="art-authors">Lafayette R, Barbour SJ, Brenner RM et al. · 2026 Feb 12</div>
+      </div>
+    </div>
+
+    <div class="article">
+      <div class="art-meta">
+        <span class="tag tag-rct">RCT</span>
+        <span class="tag tag-j">The New England journal of medicine</span>
+        <span class="tag tag-y">2026 Mar 5</span>
+        <span class="tag tag-topic">HAS</span>
+      </div>
+      <div class="art-title">Finerenone in Type 1 Diabetes and Chronic Kidney Disease</div>
+      <div class="art-summary">BACKGROUND: The nonsteroidal mineralocorticoid receptor antagonist finerenone has been reported to improve kidney and cardiovascular outcomes in persons with type 2 diabetes and chronic kidney disease (CKD). The efficacy and safety of finerenone in persons with type 1 diabetes and CKD are unknown. METHODS: We conducted a phase 3 trial involving adults who had type 1 diabetes, CKD (estimated glomerular filtration rate [eGFR], 25 to <90 ml per minute per 1.73 m RESULTS: A total of 242 participants underwent randomization. The median urinary albumin-to-creatinine ratio decreased from 574.6 at baseline to 373.5 at 6 months among all the participants assigned to receive finerenone and from 506.4 to 475.6 among those assigned to receive placebo. Over a period of 6 months, the urinary albumin-to-creatinine ratio decreased by 34% with finerenone (geometric mean ratio to baseline, 0.66; 95% confi…</div>
+      <div class="art-footer">
+        <a class="art-link" href="https://doi.org/10.1056/NEJMoa2512854" target="_blank">↗ Artigo completo (PubMed)</a>
+        <div class="art-authors">Heerspink HJL, Birkenfeld AL, Cherney DZI et al. · 2026 Mar 5</div>
+      </div>
+    </div>
+
+    <div class="article">
+      <div class="art-meta">
+        <span class="tag tag-rct">RCT</span>
+        <span class="tag tag-j">Lancet (London, England)</span>
+        <span class="tag tag-y">2026 Mar 21</span>
+        <span class="tag tag-topic">DM2</span>
+      </div>
+      <div class="art-title">Efficacy and safety of once-daily oral orforglipron compared with oral semaglutide in adults with type 2 diabetes (ACHIEVE-3): a multinational, multicentre, non-inferiority, open-label, randomised, phase 3 trial</div>
+      <div class="art-summary">BACKGROUND: Orforglipron is a novel non-peptide (GLP-1) receptor agonist designed for daily oral administration without food or water restrictions. This study aimed to compare the efficacy and safety of orforglipron with oral semaglutide in individuals with type 2 diabetes inadequately controlled with metformin. METHODS: In this 52-week, randomised, open-label, active-controlled, multicentre, multinational, phase 3 study, we enrolled adults (≥18 years) with type 2 diabetes inadequately controlled with metformin (≥1500 mg per day), glycated haemoglobin (HbA FINDINGS: From Sept 22, 2023, to Aug 22, 2025, 1698 participants were recruited and randomly assigned to orforglipron (n=424 on 12 mg and n=423 on 36 mg) or semaglutide (n=426 on 7 mg and n=425 on 14 mg). For the treatment regimen estimand, mean changes at week 52 from a baseline HbA INTERPRETATION: In individuals with type 2 diabetes …</div>
+      <div class="art-footer">
+        <a class="art-link" href="https://doi.org/10.1016/S0140-6736(26)00202-3" target="_blank">↗ Artigo completo (PubMed)</a>
+        <div class="art-authors">Rosenstock J, Yabe D, Cox D et al. · 2026 Mar 21</div>
+      </div>
+    </div>
+
+    <div class="article">
+      <div class="art-meta">
+        <span class="tag tag-meta">Meta-análise</span>
+        <span class="tag tag-j">BMJ supportive & palliative care</span>
+        <span class="tag tag-y">2026 Apr 28</span>
+        <span class="tag tag-topic">ICC</span>
+      </div>
+      <div class="art-title">Palliative care in advanced heart failure: systematic review and meta-analysis</div>
+      <div class="art-summary">AIM: This study aims to systematically evaluate the effects of palliative care on the quality of life, anxiety level, depression level, cardiac function, readmission rate and mortality rate among patients with advanced heart failure, in order to provide evidence-based support for further research in this area. METHODS: Randomised controlled trials of palliative care for patients with advanced heart failure were retrieved from CNKI, WANFANG DATA, CQVIP, SinoMed, CINAHL, Medline, PubMed, Web of Science and Embase, and references were traced. The search deadline was set as 17 July 2025. Two researchers independently screened literature, extracted data and evaluated the quality of included literature according to the Cochrane Handbook V.5.1.0. Meta-analysis was conducted using RevMan 5.3. RESULTS: A total of 20 references were included, involving 2165 patients with advanced heart failure. Th…</div>
+      <div class="art-footer">
+        <a class="art-link" href="https://doi.org/10.1089/jpm.2014.0192" target="_blank">↗ Artigo completo (PubMed)</a>
+        <div class="art-authors">Yang S, Jiang Y, Wang C et al. · 2026 Apr 28</div>
+      </div>
+    </div>
+
+    <div class="article">
+      <div class="art-meta">
+        <span class="tag tag-rct">RCT</span>
+        <span class="tag tag-j">European heart journal</span>
+        <span class="tag tag-y">2026 Mar 5</span>
+        <span class="tag tag-topic">ICC</span>
+      </div>
+      <div class="art-title">Heart failure therapy in patients with advanced cancer receiving specialized palliative care (EMPATICC trial)</div>
+      <div class="art-summary">BACKGROUND AND AIMS: Advanced cancer may resemble a heart failure (HF)-like phenotype marked by cardiac wasting, dyspnoea, congestion, and/or physical dysfunction. The trial evaluated safety and efficacy of HF therapy among patients with advanced cancer receiving specialized palliative care to improve patients' self-care ability. METHODS: Patients with stage 4 solid tumours with a life expectancy of 1-6 months receiving specialized palliative care were enrolled. Patients were required to meet at least two cardiovascular risk criteria and at least one criterion for functional limitation. Participants were randomized 1:1 to receive optimized HF therapy (up to four drugs: sacubitril/valsartan, empagliflozin, ivabradine, ferric carboxymaltose) or placebo in a double-blind setting. The primary hierarchical endpoint included: (i) days alive and able to wash oneself, (ii) ability to walk 4 m, a…</div>
+      <div class="art-footer">
+        <a class="art-link" href="https://doi.org/10.1093/eurheartj/ehz641" target="_blank">↗ Artigo completo (PubMed)</a>
+        <div class="art-authors">Anker MS, Mahabadi AA, Totzeck M et al. · 2026 Mar 5</div>
+      </div>
+    </div>
+
+    <div class="article">
+      <div class="art-meta">
+        <span class="tag tag-rct">RCT</span>
+        <span class="tag tag-j">Journal of clinical oncology : official journ…</span>
+        <span class="tag tag-y">2026 Feb 20</span>
+        <span class="tag tag-topic">HAS</span>
+      </div>
+      <div class="art-title">Pirtobrutinib Versus Ibrutinib in Treatment-Naïve and Relapsed/Refractory Chronic Lymphocytic Leukemia/Small Lymphocytic Lymphoma</div>
+      <div class="art-summary">PURPOSE: Pirtobrutinib, a highly selective, noncovalent Bruton tyrosine kinase inhibitor (BTKi), has shown efficacy and safety in patients with chronic lymphocytic leukemia/small lymphocytic lymphoma (CLL/SLL) who received prior covalent BTKi. We report results, to our knowledge, from the first randomized head-to-head comparison of pirtobrutinib versus ibrutinib in BTKi-naïve CLL/SLL in both treatment-naïve (TN) patients and patients with relapsed/refractory (R/R) disease. PATIENTS AND METHODS: Patients (N = 662) were randomly assigned 1:1 to receive pirtobrutinib or ibrutinib. All patients were BTKi-naïve. Primary end points were overall response rate (ORR) by independent review committee (IRC) among all randomly assigned patients (intention to treat [ITT]) and in patients with R RESULTS: The study met its primary end points, demonstrating statistically significant noninferiority (NI) o…</div>
+      <div class="art-footer">
+        <a class="art-link" href="https://doi.org/10.1200/JCO-25-02477" target="_blank">↗ Artigo completo (PubMed)</a>
+        <div class="art-authors">Woyach JA, Qiu L, Grosicki S et al. · 2026 Feb 20</div>
+      </div>
+    </div>
+  
+        <hr class="divider">
+        <div class="section-head">
+          <h2>Edições anteriores</h2>
+        </div>
+        <div class="archive-grid">
+        <a class="archive-card" href="2026-05-10.html">
+          <div class="archive-date">10 May 2026</div>
+          <div class="archive-label">Edição 10/05</div>
+          <div class="archive-count">8 artigos</div>
+        </a></div>
+</div>
+<div class="footer">
+  <div>© ClinicaUpdate · gerado automaticamente via PubMed E-utilities</div>
+  <div><a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank">PubMed</a> · atualizado toda segunda-feira</div>
+</div>
+</body>
+</html>
