@@ -698,13 +698,13 @@ def build_html(articles, guidelines, edition_date, all_editions):
 </div>
 
 <script>
-function mostrarAba(id, el) {
-  document.querySelectorAll('.secao').forEach(s => s.classList.remove('ativa'));
-  document.querySelectorAll('.aba').forEach(a => a.classList.remove('ativa'));
+function mostrarAba(id, el) {{
+  document.querySelectorAll('.secao').forEach(function(s) {{ s.classList.remove('ativa'); }});
+  document.querySelectorAll('.aba').forEach(function(a) {{ a.classList.remove('ativa'); }});
   document.getElementById('aba-' + id).classList.add('ativa');
   el.classList.add('ativa');
   return false;
-}
+}}
 </script>
 
 </body>
