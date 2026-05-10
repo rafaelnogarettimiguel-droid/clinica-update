@@ -12,14 +12,18 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: python generate.py
-      - run: |
+      - name: Gerar
+        run: python generate.py
+      - name: Publicar
+        run: |
           git config user.name "ClinicaUpdate Bot"
           git config user.email "bot@clinicaupdate"
           git add docs/
-          git diff --cached --quiet || git commit -m "Edição $(date +'%Y-%m-%d')"
+          git diff --cached --quiet || git commit -m "Edicao $(date +'%Y-%m-%d')"
           git push
