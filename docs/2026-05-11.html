@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ClinicaUpdate — 11/05/2026</title>
+  <title>ClinicaUpdate &mdash; 11/05/2026</title>
   <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
 
@@ -33,7 +33,6 @@ body {
   line-height: 1.65;
 }
 
-/* cabeçalho */
 .cabecalho {
   background: var(--text);
   color: #fff;
@@ -71,7 +70,6 @@ body {
 }
 .cabecalho-info strong { color: #ddd; }
 
-/* abas */
 .abas {
   background: #fff;
   border-bottom: 1px solid var(--border);
@@ -94,18 +92,17 @@ body {
   white-space: nowrap;
   transition: color 0.15s, border-color 0.15s;
   text-decoration: none;
+  display: inline-block;
 }
 .aba:hover { color: var(--red); }
 .aba.ativa { color: var(--red); border-bottom-color: var(--red); }
 
-/* página */
 .pagina {
   max-width: 860px;
   margin: 0 auto;
   padding: 36px 24px 80px;
 }
 
-/* aviso leitura rápida */
 .aviso-leitura {
   background: #fff;
   border: 1px solid var(--border);
@@ -114,11 +111,9 @@ body {
   font-size: 0.84rem;
   color: var(--text2);
   margin-bottom: 28px;
-  border-radius: 2px;
 }
 .aviso-leitura strong { color: var(--green); }
 
-/* seção */
 .secao { display: none; }
 .secao.ativa { display: block; }
 
@@ -140,7 +135,6 @@ body {
   color: var(--text3);
 }
 
-/* card */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -148,7 +142,6 @@ body {
   padding: 22px 24px;
   margin-bottom: 14px;
   transition: border-left-color 0.2s, box-shadow 0.2s;
-  border-radius: 2px;
 }
 .card:hover {
   border-left-color: var(--red);
@@ -232,7 +225,6 @@ body {
   flex: 1;
 }
 
-/* arquivo */
 .arquivo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -246,36 +238,18 @@ body {
   text-decoration: none;
   color: var(--text);
   transition: border-color 0.15s, box-shadow 0.15s;
-  border-radius: 2px;
   display: block;
 }
 .arquivo-card:hover {
   border-color: var(--red);
   box-shadow: 0 2px 10px rgba(0,0,0,0.06);
 }
-.arquivo-data {
-  font-size: 0.72rem;
-  color: var(--text3);
-  margin-bottom: 4px;
-}
-.arquivo-label {
-  font-family: 'Lora', serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-}
-.arquivo-qtd {
-  font-size: 0.7rem;
-  color: var(--text3);
-  margin-top: 4px;
-}
+.arquivo-data { font-size: 0.72rem; color: var(--text3); margin-bottom: 4px; }
+.arquivo-label { font-family: 'Lora', serif; font-size: 0.95rem; font-weight: 600; }
+.arquivo-qtd { font-size: 0.7rem; color: var(--text3); margin-top: 4px; }
 
-.divisor {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: 32px 0;
-}
+.divisor { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
 
-/* rodapé */
 .rodape {
   background: var(--text);
   color: #555;
@@ -304,291 +278,234 @@ body {
 <div class="cabecalho">
   <div class="cabecalho-inner">
     <div>
-      <div class="logo">Clínica<span>Update</span></div>
+      <div class="logo">Clinica<span>Update</span></div>
       <div class="logo-sub">Curadoria semanal em medicina interna</div>
     </div>
     <div class="cabecalho-info">
-      <strong>Edição de 11 de May de 2026</strong><br>
-      Fonte: PubMed · NEJM · Lancet · JAMA · BMJ<br>
+      <strong>Edicao de 11 de May de 2026</strong><br>
+      Fonte: PubMed &middot; NEJM &middot; Lancet &middot; JAMA &middot; BMJ<br>
       Atualizado toda segunda-feira
     </div>
   </div>
 </div>
 
 <div class="abas">
-  <a class="aba ativa" onclick="mostrarAba('artigos', this)" href="#">📄 Artigos da semana</a>
-  <a class="aba" onclick="mostrarAba('diretrizes', this)" href="#">📋 Diretrizes recentes</a>
-  <a class="aba" onclick="mostrarAba('arquivo', this)" href="#">🗂 Arquivo</a>
+  <a class="aba ativa" href="#" onclick="mostrarAba('artigos',this);return false;">Artigos da semana</a>
+  <a class="aba" href="#" onclick="mostrarAba('diretrizes',this);return false;">Diretrizes recentes</a>
+  <a class="aba" href="#" onclick="mostrarAba('arquivo',this);return false;">Arquivo</a>
 </div>
 
 <div class="pagina">
 
   <div class="aviso-leitura">
-    <strong>Leitura rápida:</strong> cada resumo foi pensado para ser lido em até 5 minutos. O link ao final leva ao artigo completo no PubMed.
+    <strong>Leitura rapida:</strong> cada resumo foi escrito para ser lido em ate 5 minutos.
+    Clique em "Ler artigo completo" para acessar o texto original no PubMed.
   </div>
 
-  <!-- ABA: ARTIGOS -->
   <div id="aba-artigos" class="secao ativa">
     <div class="secao-titulo">
       <h2>Artigos da semana</h2>
-      <span class="qtd">8 artigos selecionados · 11 de May de 2026</span>
+      <span class="qtd">8 artigos selecionados &middot; 11 de May de 2026</span>
     </div>
     
 <div class="card">
-  <div class="card-meta">
-    <span class="badge badge-rct">Ensaio Clínico</span>
-    <span class="badge badge-topic">ICC</span>
-    <span class="card-date">2026 Feb 19</span>
-  </div>
-  <h3 class="card-title">Transcatheter or Surgical Aortic-Valve Replacement in Low-Risk Patients at 7 Years</h3>
+  <div class="card-meta"><span class="badge badge-rct">Ensaio Clinico</span><span class="badge badge-topic">ICC</span><span class="card-date">2026 Feb 19</span></div>
+  <h3 class="card-title">Substituição transcateter ou cirúrgica da válvula aórtica em pacientes de baixo risco aos 7 anos</h3>
   <p class="card-journal">The New England journal of medicine</p>
-  <p class="card-resumo">BACKGROUND: Five-year data from the PARTNER 3 trial showed that among low-risk patients with severe, symptomatic aortic stenosis, outcomes were similar among patients who had undergone transcatheter aortic-valve replacement (TAVR) and those who had undergone surgical aortic-valve replacement. Longer-term assessments of clinical outcomes and valve durability are needed. METHODS: Patients were randomly assigned in a 1:1 ratio to undergo transfemoral TAVR or surgery.</p>
+  <p class="card-resumo">FUNDAMENTO: Dados de cinco anos do estudo PARTNER 3 mostraram que entre pacientes de baixo risco com estenose aórtica grave e sintomática, os resultados foram semelhantes entre pacientes submetidos à substituição percutânea da válvula aórtica (TAVR) e aqueles submetidos à substituição cirúrgica da válvula aórtica. São necessárias avaliações de longo prazo dos resultados clínicos e da durabilidade da válvula. MÉTODOS: Os pacientes foram randomizados na proporção de 1:1 para serem submetidos a TAVI transfemoral ou cirurgia. O primeiro desfecho primário foi um composto não hierárquico de morte, acidente vascular cerebral ou reinternação relacionada ao procedimento, à válvula ou à insuficiência cardíaca. O segundo desfecho primário foi um composto hierárquico de morte, AVC incapacitante, AVC não incapacitante e o número de dias de reinternação relacionados ao procedimento, à válvula ou à insuficiência cardíaca, analisado com o uso de uma análise de razão de vitória. Os desfechos clínicos, ecocardiográficos, durabilidade da válvula e estado de saúde foram avaliados ao longo de 7 anos. RESULTADOS: Um total de 1.000 pacientes foram submetidos à randomização.</p>
   <div class="card-footer">
-    <a class="card-link" href="https://doi.org/10.1056/NEJMoa2509766" target="_blank">Ler artigo completo →</a>
+    <a class="card-link" href="https://doi.org/10.1056/NEJMoa2509766" target="_blank">Ler artigo completo no PubMed &rarr;</a>
     <span class="card-authors">Leon MB, Mack MJ, Pibarot P et al.</span>
   </div>
 </div>
 
 <div class="card">
-  <div class="card-meta">
-    <span class="badge badge-rct">Ensaio Clínico</span>
-    <span class="badge badge-topic">ICC</span>
-    <span class="card-date">2026 Mar 5</span>
-  </div>
-  <h3 class="card-title">Heart failure therapy in patients with advanced cancer receiving specialized palliative care (EMPATICC trial)</h3>
+  <div class="card-meta"><span class="badge badge-rct">Ensaio Clinico</span><span class="badge badge-topic">ICC</span><span class="card-date">2026 Mar 5</span></div>
+  <h3 class="card-title">Terapia para insuficiência cardíaca em pacientes com câncer avançado recebendo cuidados paliativos especializados (estudo EMPATICC)</h3>
   <p class="card-journal">European heart journal</p>
-  <p class="card-resumo">BACKGROUND AND AIMS: Advanced cancer may resemble a heart failure (HF)-like phenotype marked by cardiac wasting, dyspnoea, congestion, and/or physical dysfunction. The trial evaluated safety and efficacy of HF therapy among patients with advanced cancer receiving specialized palliative care to improve patients' self-care ability. METHODS: Patients with stage 4 solid tumours with a life expectancy of 1-6 months receiving specialized palliative care were enrolled. Patients were required to meet at least two cardiovascular risk criteria and at least one criterion for functional limitation.</p>
+  <p class="card-resumo">JUSTIFICATIVA E OBJETIVOS: O câncer avançado pode se assemelhar a um fenótipo semelhante à insuficiência cardíaca (IC), marcado por perda cardíaca, dispneia, congestão e/ou disfunção física. O estudo avaliou a segurança e a eficácia da terapia para IC entre pacientes com câncer avançado que receberam cuidados paliativos especializados para melhorar a capacidade de autocuidado dos pacientes. MÉTODOS: Foram incluídos pacientes com tumores sólidos em estágio 4 com expectativa de vida de 1 a 6 meses recebendo cuidados paliativos especializados. Os pacientes foram obrigados a atender pelo menos dois critérios de risco cardiovascular e pelo menos um critério de limitação funcional. Os participantes foram randomizados 1:1 para receber terapia otimizada para IC (até quatro medicamentos: sacubitril/valsartana, empagliflozina, ivabradina, carboximaltose férrica) ou placebo em um ambiente duplo-cego. O endpoint hierárquico primário incluiu: (i) dias de vida e capacidade de lavar-se, (ii) capacidade de caminhar 4 m e (iii) avaliação global do paciente (PGA) auto-relatada do bem-estar subjetivo, durante a fase controlada por placebo de 30 dias. RESULTADOS: Em cinco centros, 93 pacientes foram randomizados. O desfecho primário não diferiu entre os grupos (proporção de vitória 0,95, intervalo de confiança [IC] de 95% 0,57-1,58; P = 0,83).</p>
   <div class="card-footer">
-    <a class="card-link" href="https://doi.org/10.1093/eurheartj/ehz641" target="_blank">Ler artigo completo →</a>
+    <a class="card-link" href="https://doi.org/10.1093/eurheartj/ehz641" target="_blank">Ler artigo completo no PubMed &rarr;</a>
     <span class="card-authors">Anker MS, Mahabadi AA, Totzeck M et al.</span>
   </div>
 </div>
 
 <div class="card">
-  <div class="card-meta">
-    <span class="badge badge-rct">Ensaio Clínico</span>
-    <span class="badge badge-topic">TEP / TVP</span>
-    <span class="card-date">2026 Mar 12</span>
-  </div>
-  <h3 class="card-title">Bleeding Risk with Apixaban vs. Rivaroxaban in Acute Venous Thromboembolism</h3>
+  <div class="card-meta"><span class="badge badge-rct">Ensaio Clinico</span><span class="badge badge-topic">TEP / TVP</span><span class="card-date">2026 Mar 12</span></div>
+  <h3 class="card-title">Risco de sangramento com apixabana vs. rivaroxabana no tromboembolismo venoso agudo</h3>
   <p class="card-journal">The New England journal of medicine</p>
-  <p class="card-resumo">BACKGROUND: Apixaban and rivaroxaban are the oral anticoagulants most frequently used to treat acute venous thromboembolism. However, uncertainty remains about the difference in bleeding risk between the two medications. METHODS: In an international trial with a prospective, randomized, open-label, blinded end-point design, we assigned, in a 1:1 ratio, eligible patients with acute symptomatic pulmonary embolism or proximal deep-vein thrombosis to receive apixaban or rivaroxaban for 3 months.</p>
+  <p class="card-resumo">FUNDAMENTO: Apixabana e rivaroxabana são os anticoagulantes orais mais utilizados no tratamento do tromboembolismo venoso agudo. No entanto, permanece a incerteza sobre a diferença no risco de sangramento entre os dois medicamentos. MÉTODOS: Em um estudo internacional com um desfecho prospectivo, randomizado, aberto e cego, designamos, em uma proporção de 1:1, pacientes elegíveis com embolia pulmonar sintomática aguda ou trombose venosa profunda proximal para receber apixabana ou rivaroxabana por 3 meses. A apixabana foi administrada na dose de 10 mg duas vezes ao dia durante 7 dias, seguida de 5 mg duas vezes ao dia, e a rivaroxabana foi administrada na dose de 15 mg duas vezes ao dia durante 21 dias, seguida de 20 mg ao dia. O desfecho primário foi sangramento clinicamente relevante, um composto de sangramento maior ou sangramento não maior clinicamente relevante, conforme definido de acordo com a Sociedade Internacional de Trombose e Hemostasia, durante o período experimental de 3 meses. Os desfechos secundários incluíram morte por qualquer causa. RESULTADOS: Um total de 2.760 pacientes foram randomizados: 1.370 para o grupo apixabana e 1.390 para o grupo rivaroxabana.</p>
   <div class="card-footer">
-    <a class="card-link" href="https://doi.org/10.1056/NEJMoa2510703" target="_blank">Ler artigo completo →</a>
+    <a class="card-link" href="https://doi.org/10.1056/NEJMoa2510703" target="_blank">Ler artigo completo no PubMed &rarr;</a>
     <span class="card-authors">Castellucci LA, Chen VM, Kovacs MJ et al.</span>
   </div>
 </div>
 
 <div class="card">
-  <div class="card-meta">
-    <span class="badge badge-rct">Ensaio Clínico</span>
-    <span class="badge badge-topic">Hipertensão</span>
-    <span class="card-date">2026 Feb 12</span>
-  </div>
-  <h3 class="card-title">A Phase 3 Trial of Atacicept in Patients with IgA Nephropathy</h3>
+  <div class="card-meta"><span class="badge badge-rct">Ensaio Clinico</span><span class="badge badge-topic">Hipertensao</span><span class="card-date">2026 Feb 12</span></div>
+  <h3 class="card-title">Um ensaio de fase 3 de Atacicept em pacientes com nefropatia por IgA</h3>
   <p class="card-journal">The New England journal of medicine</p>
-  <p class="card-resumo">BACKGROUND: IgA nephropathy, the most common primary glomerulopathy worldwide, is a kidney disorder of B-cell origin characterized by mesangial accumulation of IgA-containing immune complexes. In at least 50% of patients, IgA nephropathy leads to kidney failure or death within 10 to 20 years after diagnosis.</p>
+  <p class="card-resumo">FUNDAMENTO: A nefropatia por IgA, a glomerulopatia primária mais comum em todo o mundo, é uma doença renal de origem nas células B caracterizada pelo acúmulo mesangial de complexos imunes contendo IgA. Em pelo menos 50% dos pacientes, a nefropatia por IgA leva à insuficiência renal ou à morte dentro de 10 a 20 anos após o diagnóstico. Atacicept é um ativador transmembrana humano nativo e modulador de cálcio e interator de ligante de ciclofilina (TACI) -proteína de fusão Fc que inibe duas citocinas imunorreguladoras principais - fator de ativação de células B (BAFF) e um ligante indutor de proliferação (APRIL) - que são considerados centrais para a fisiopatologia da nefropatia por IgA. MÉTODOS: Neste estudo em andamento, fase 3, multicêntrico, duplo-cego, randomizado e controlado por placebo, designamos pacientes com nefropatia por IgA em uma proporção de 1:1 para receber atacicept na dose de 150 mg uma vez por semana, administrado por via subcutânea pelos pacientes em casa, ou placebo correspondente. O desfecho primário foi a alteração percentual em relação ao valor basal na relação proteína/creatinina urinária de 24 horas na semana 36. A segurança também foi avaliada. RESULTADOS: Um total de 203 pacientes foram incluídos na análise provisória pré-especificada: 106 pacientes no grupo atacicept e 97 no grupo placebo.</p>
   <div class="card-footer">
-    <a class="card-link" href="https://doi.org/10.1056/NEJMoa2510198" target="_blank">Ler artigo completo →</a>
+    <a class="card-link" href="https://doi.org/10.1056/NEJMoa2510198" target="_blank">Ler artigo completo no PubMed &rarr;</a>
     <span class="card-authors">Lafayette R, Barbour SJ, Brenner RM et al.</span>
   </div>
 </div>
 
 <div class="card">
-  <div class="card-meta">
-    <span class="badge badge-rct">Ensaio Clínico</span>
-    <span class="badge badge-topic">Hipertensão</span>
-    <span class="card-date">2026 Mar 5</span>
-  </div>
-  <h3 class="card-title">Finerenone in Type 1 Diabetes and Chronic Kidney Disease</h3>
+  <div class="card-meta"><span class="badge badge-rct">Ensaio Clinico</span><span class="badge badge-topic">Hipertensao</span><span class="card-date">2026 Mar 5</span></div>
+  <h3 class="card-title">Finerenona no diabetes tipo 1 e doença renal crônica</h3>
   <p class="card-journal">The New England journal of medicine</p>
-  <p class="card-resumo">BACKGROUND: The nonsteroidal mineralocorticoid receptor antagonist finerenone has been reported to improve kidney and cardiovascular outcomes in persons with type 2 diabetes and chronic kidney disease (CKD). The efficacy and safety of finerenone in persons with type 1 diabetes and CKD are unknown. METHODS: We conducted a phase 3 trial involving adults who had type 1 diabetes, CKD (estimated glomerular filtration rate [eGFR], 25 to <90 ml per minute per 1.73 m RESULTS: A total of 242 participants underwent randomization.</p>
+  <p class="card-resumo">FUNDAMENTO: Foi relatado que o antagonista do receptor mineralocorticóide não esteroidal finerenona melhora os resultados renais e cardiovasculares em pessoas com diabetes tipo 2 e doença renal crônica (DRC). A eficácia e segurança da finerenona em pessoas com diabetes tipo 1 e DRC são desconhecidas. MÉTODOS: Realizamos um estudo de fase 3 envolvendo adultos que tinham diabetes tipo 1, DRC (taxa de filtração glomerular estimada [TFGe], 25 a <90 ml por minuto por 1,73 m RESULTADOS: Um total de 242 participantes foram submetidos à randomização. A mediana da relação entre albumina e creatinina urinária diminuiu de 574,6 no início do estudo para 373,5 em 6 meses entre todos os participantes designados para receber finerenona e de 506,4 a 475,6 entre aqueles designados para receber placebo Durante um período de 6 meses, a relação albumina/creatinina urinária diminuiu 34% com finerenona (razão média geométrica em relação ao valor basal, 0,66; intervalo de confiança [IC] de 95%, 0,60 a 0,73) e 12% com placebo (razão média geométrica em relação ao valor basal, 0,88; IC 95%, 0,79). para 0,98), o que correspondeu a uma redução 25% maior com finerenona do que com placebo (proporção média geométrica para finerenona vs. placebo, 0,75; IC de 95%, 0,65 a 0,87; P <0,001).</p>
   <div class="card-footer">
-    <a class="card-link" href="https://doi.org/10.1056/NEJMoa2512854" target="_blank">Ler artigo completo →</a>
+    <a class="card-link" href="https://doi.org/10.1056/NEJMoa2512854" target="_blank">Ler artigo completo no PubMed &rarr;</a>
     <span class="card-authors">Heerspink HJL, Birkenfeld AL, Cherney DZI et al.</span>
   </div>
 </div>
 
 <div class="card">
-  <div class="card-meta">
-    <span class="badge badge-rct">Ensaio Clínico</span>
-    <span class="badge badge-topic">Diabetes tipo 2</span>
-    <span class="card-date">2026 Mar 21</span>
-  </div>
-  <h3 class="card-title">Efficacy and safety of once-daily oral orforglipron compared with oral semaglutide in adults with type 2 diabetes (ACHIEVE-3): a multinational, multicentre, non-inferiority, open-label, randomised, phase 3 trial</h3>
+  <div class="card-meta"><span class="badge badge-rct">Ensaio Clinico</span><span class="badge badge-topic">Diabetes tipo 2</span><span class="card-date">2026 Mar 21</span></div>
+  <h3 class="card-title">Eficácia e segurança de orglipron oral uma vez ao dia em comparação com semaglutida oral em adultos com diabetes tipo 2 (ACHIEVE-3): um ensaio multinacional, multicêntrico, de não inferioridade, aberto, randomizado, de fase 3</h3>
   <p class="card-journal">Lancet (London, England)</p>
-  <p class="card-resumo">BACKGROUND: Orforglipron is a novel non-peptide (GLP-1) receptor agonist designed for daily oral administration without food or water restrictions. This study aimed to compare the efficacy and safety of orforglipron with oral semaglutide in individuals with type 2 diabetes inadequately controlled with metformin.</p>
+  <p class="card-resumo">FUNDAMENTO: Orforglipron é um novo agonista do receptor não peptídico (GLP-1) projetado para administração oral diária sem restrições de alimentos ou água. Este estudo teve como objetivo comparar a eficácia e segurança do orforglipron com semaglutida oral em indivíduos com diabetes tipo 2 inadequadamente controlados com metformina. MÉTODOS: Neste estudo de fase 3, randomizado, aberto, com controle ativo, multicêntrico, multinacional, de 52 semanas, incluímos adultos (≥18 anos) com diabetes tipo 2 inadequadamente controlados com metformina (≥1.500 mg por dia), hemoglobina glicada (HbA1c). recrutados e designados aleatoriamente para receber orforglipron (n=424 com 12 mg e n=423 com 36 mg) ou semaglutida (n=426 com 7 mg e n=425 com 14 mg). Para a estimativa do regime de tratamento, as alterações médias na semana 52 em relação à HbA1c basal. INTERPRETAÇÃO: Em indivíduos com diabetes tipo 2 inadequadamente controlados com metformina, orforglipron 12 mg e 36 mg foi administrado. não inferior e superior à semaglutida 7 mg e 14 mg em relação à alteração média na HbA FINANCIAMENTO: Eli Lilly.</p>
   <div class="card-footer">
-    <a class="card-link" href="https://doi.org/10.1016/S0140-6736(26)00202-3" target="_blank">Ler artigo completo →</a>
+    <a class="card-link" href="https://doi.org/10.1016/S0140-6736(26)00202-3" target="_blank">Ler artigo completo no PubMed &rarr;</a>
     <span class="card-authors">Rosenstock J, Yabe D, Cox D et al.</span>
   </div>
 </div>
 
 <div class="card">
-  <div class="card-meta">
-    <span class="badge badge-meta">Meta-análise</span>
-    <span class="badge badge-topic">ICC</span>
-    <span class="card-date">2026 Apr 28</span>
-  </div>
-  <h3 class="card-title">Palliative care in advanced heart failure: systematic review and meta-analysis</h3>
+  <div class="card-meta"><span class="badge badge-meta">Meta-analise</span><span class="badge badge-topic">ICC</span><span class="card-date">2026 Apr 28</span></div>
+  <h3 class="card-title">Cuidados paliativos na insuficiência cardíaca avançada: revisão sistemática e metanálise</h3>
   <p class="card-journal">BMJ supportive & palliative care</p>
-  <p class="card-resumo">AIM: This study aims to systematically evaluate the effects of palliative care on the quality of life, anxiety level, depression level, cardiac function, readmission rate and mortality rate among patients with advanced heart failure, in order to provide evidence-based support for further research in this area. METHODS: Randomised controlled trials of palliative care for patients with advanced heart failure were retrieved from CNKI, WANFANG DATA, CQVIP, SinoMed, CINAHL, Medline, PubMed, Web of Science and Embase, and references were traced. The search deadline was set as 17 July 2025.</p>
+  <p class="card-resumo">OBJETIVO: Este estudo tem como objetivo avaliar sistematicamente os efeitos dos cuidados paliativos na qualidade de vida, nível de ansiedade, nível de depressão, função cardíaca, taxa de readmissão e taxa de mortalidade entre pacientes com insuficiência cardíaca avançada, a fim de fornecer suporte baseado em evidências para futuras pesquisas nesta área. MÉTODOS: Ensaios clínicos randomizados de cuidados paliativos para pacientes com insuficiência cardíaca avançada foram recuperados de CNKI, WANFANG DATA, CQVIP, SinoMed, CINAHL, Medline, PubMed, Web of Science e Embase, e as referências foram rastreadas. O prazo de busca foi definido como 17 de julho de 2025. Dois pesquisadores examinaram a literatura de forma independente, extraíram os dados e avaliaram a qualidade da literatura incluída de acordo com o Cochrane Handbook V.5.1.0. A meta-análise foi realizada usando RevMan 5.3. RESULTADOS: Foram incluídas 20 referências, envolvendo 2.165 pacientes com insuficiência cardíaca avançada.</p>
   <div class="card-footer">
-    <a class="card-link" href="https://doi.org/10.1089/jpm.2014.0192" target="_blank">Ler artigo completo →</a>
+    <a class="card-link" href="https://doi.org/10.1089/jpm.2014.0192" target="_blank">Ler artigo completo no PubMed &rarr;</a>
     <span class="card-authors">Yang S, Jiang Y, Wang C et al.</span>
   </div>
 </div>
 
 <div class="card">
-  <div class="card-meta">
-    <span class="badge badge-rct">Ensaio Clínico</span>
-    <span class="badge badge-topic">Hipertensão</span>
-    <span class="card-date">2026 Feb 20</span>
-  </div>
-  <h3 class="card-title">Pirtobrutinib Versus Ibrutinib in Treatment-Naïve and Relapsed/Refractory Chronic Lymphocytic Leukemia/Small Lymphocytic Lymphoma</h3>
-  <p class="card-journal">Journal of clinical oncology : official journal of…</p>
-  <p class="card-resumo">PURPOSE: Pirtobrutinib, a highly selective, noncovalent Bruton tyrosine kinase inhibitor (BTKi), has shown efficacy and safety in patients with chronic lymphocytic leukemia/small lymphocytic lymphoma (CLL/SLL) who received prior covalent BTKi. We report results, to our knowledge, from the first randomized head-to-head comparison of pirtobrutinib versus ibrutinib in BTKi-naïve CLL/SLL in both treatment-naïve (TN) patients and patients with relapsed/refractory (R/R) disease. PATIENTS AND METHODS: Patients (N = 662) were randomly assigned 1:1 to receive pirtobrutinib or ibrutinib.</p>
+  <div class="card-meta"><span class="badge badge-rct">Ensaio Clinico</span><span class="badge badge-topic">Hipertensao</span><span class="card-date">2026 Feb 20</span></div>
+  <h3 class="card-title">Pirtobrutinibe versus ibrutinibe em leucemia linfocítica crônica sem tratamento prévio e recidivante/refratária/linfoma linfocítico pequeno</h3>
+  <p class="card-journal">Journal of clinical oncology : official journal of...</p>
+  <p class="card-resumo">OBJETIVO: O pirtobrutinibe, um inibidor de tirosina quinase Bruton não covalente e altamente seletivo (BTKi), demonstrou eficácia e segurança em pacientes com leucemia linfocítica crônica/linfoma linfocítico pequeno (LLC/SLL) que receberam BTKi covalente anterior. Relatamos os resultados, até onde sabemos, da primeira comparação comparativa randomizada de pirtobrutinibe versus ibrutinibe em LLC/SLL virgens de BTKi em pacientes virgens de tratamento (TN) e pacientes com doença recidivante/refratária (R/R). PACIENTES E MÉTODOS: Os pacientes (N = 662) foram distribuídos aleatoriamente na proporção de 1:1 para receber pirtobrutinibe ou ibrutinibe. Todos os pacientes eram virgens de BTKi. Os desfechos primários foram a taxa de resposta global (ORR) pelo comitê de revisão independente (IRC) entre todos os pacientes designados aleatoriamente (intenção de tratar [ITT]) e em pacientes com R RESULTADOS: O estudo atingiu seus desfechos primários, demonstrando não inferioridade (NI) estatisticamente significativa de IRC-ORR para pirtobrutinibe versus ibrutinibe em ambos os ITT (87,0% [IC 95%, 82,9 a 90,4] CONCLUSÃO: Pirtobrutinib demonstrou NI de ORR versus ibrutinib, com uma tendência favorável de PFS precoce, particularmente em doentes com TN, e um perfil de segurança favorável, incluindo baixas taxas de fibrilhação auricular e hipertensão.</p>
   <div class="card-footer">
-    <a class="card-link" href="https://doi.org/10.1200/JCO-25-02477" target="_blank">Ler artigo completo →</a>
+    <a class="card-link" href="https://doi.org/10.1200/JCO-25-02477" target="_blank">Ler artigo completo no PubMed &rarr;</a>
     <span class="card-authors">Woyach JA, Qiu L, Grosicki S et al.</span>
   </div>
 </div>
   </div>
 
-  <!-- ABA: DIRETRIZES -->
   <div id="aba-diretrizes" class="secao">
     <div class="secao-titulo">
       <h2>Diretrizes recentes</h2>
       <span class="qtd">6 diretrizes encontradas</span>
     </div>
     <p style="font-size:.87rem;color:var(--text2);margin-bottom:22px;line-height:1.7;">
-      Seleção de diretrizes e recomendações clínicas publicadas recentemente em medicina interna. Clique em "Ler artigo completo" para acessar o texto original no PubMed.
+      Selecao de diretrizes e recomendacoes clinicas publicadas recentemente em medicina interna.
     </p>
     
 <div class="card">
-  <div class="card-meta">
-    <span class="badge badge-guide">Diretriz</span>
-    <span class="badge badge-topic">Clínica Médica</span>
-    <span class="card-date">2025 Oct</span>
-  </div>
-  <h3 class="card-title">2025 AHA/ACC/AANP/AAPA/ABC/ACCP/ACPM/AGS/AMA/ASPC/NMA/PCNA/SGIM Guideline for the Prevention, Detection, Evaluation and Management of High Blood Pressure in Adults: A Report of the American College of Cardiology/American Heart Association Joint Committee on Clinical Practice Guidelines</h3>
+  <div class="card-meta"><span class="badge badge-guide">Diretriz</span><span class="badge badge-topic">Clinica Medica</span><span class="card-date">2025 Oct</span></div>
+  <h3 class="card-title">2025 AHA/ACC/AANP/AAPA/ABC/ACCP/ACPM/AGS/AMA/ASPC/NMA/PCNA/SGIM Diretriz para prevenção, detecção, avaliação e tratamento da hipertensão arterial em adultos: um relatório do American College of Cardiology/American Heart Association Joint Committee on Clinical Practice Guidelines</h3>
   <p class="card-journal">Hypertension (Dallas, Tex. : 1979)</p>
-  <p class="card-resumo">AIM: The "2025 AHA/ACC/AANP/AAPA/ABC/ACCP/ACPM/AGS/AMA/ASPC/NMA/PCNA/SGIM Guideline for the Prevention, Detection, Evaluation, and Management of High Blood Pressure in Adults" retires and replaces the "2017 ACC/AHA/AAPA/ABC/ACPM/AGS/APhA/ASH/ASPC/NMA/PCNA Guideline for the Prevention, Detection, Evaluation, and Management of High Blood Pressure in Adults." METHODS: A comprehensive literature search was conducted from December 2023 to June 2024 to identify clinical studies, reviews, and other evidence performed on human subjects that were published since February 2015 in English from MEDLINE (t…</p>
+  <p class="card-resumo">OBJETIVO: A "Diretriz 2025 AHA/ACC/AANP/AAPA/ABC/ACCP/ACPM/AGS/AMA/ASPC/NMA/PCNA/SGIM para a Prevenção, Detecção, Avaliação e Tratamento da Pressão Arterial Elevada em Adultos" retira e substitui a "Diretriz 2017 ACC/AHA/AAPA/ABC/ACPM/AGS/APhA/ASH/ASPC/NMA/PCNA para o Prevenção, detecção, avaliação e tratamento da hipertensão arterial em adultos." MÉTODOS: Uma pesquisa bibliográfica abrangente foi realizada de dezembro de 2023 a junho de 2024 para identificar estudos clínicos, revisões e outras evidências realizadas em seres humanos que foram publicados desde fevereiro de 2015 em inglês no MEDLINE (através do PubMed), EMBASE, Biblioteca Cochrane, Agência de Pesquisa e Qualidade em Saúde e outras bases de dados selecionadas relevantes para esta diretriz. ESTRUTURA: O foco desta diretriz de prática clínica é criar um documento vivo e funcional que atualize o conhecimento atual no campo da hipertensão arterial, destinado a todos os profissionais de atenção primária e médicos especializados que cuidam de pacientes com hipertensão.</p>
   <div class="card-footer">
-    <a class="card-link" href="https://doi.org/10.1161/HYP.0000000000000249" target="_blank">Ler artigo completo →</a>
+    <a class="card-link" href="https://doi.org/10.1161/HYP.0000000000000249" target="_blank">Ler artigo completo no PubMed &rarr;</a>
     <span class="card-authors">Writing Committee Members*, Jones DW, Ferdinand KC et al.</span>
   </div>
 </div>
 
 <div class="card">
-  <div class="card-meta">
-    <span class="badge badge-guide">Diretriz</span>
-    <span class="badge badge-topic">Clínica Médica</span>
-    <span class="card-date">2025 Aug 7</span>
-  </div>
-  <h3 class="card-title">Primary Aldosteronism: An Endocrine Society Clinical Practice Guideline</h3>
-  <p class="card-journal">The Journal of clinical endocrinology and metaboli…</p>
-  <p class="card-resumo">BACKGROUND: Primary aldosteronism (PA), a primary adrenal disorder leading to excessive aldosterone production by one or both adrenal glands, is a common cause of hypertension. It is associated with an increased risk of cardiovascular complications compared with primary hypertension. Despite effective methods for diagnosing and treating PA, it remains markedly underdiagnosed and undertreated. OBJECTIVE: To develop an updated guideline that provides a practical, clinical approach to identifying and managing PA to improve diagnosis rates and encourage targeted treatment.</p>
+  <div class="card-meta"><span class="badge badge-guide">Diretriz</span><span class="badge badge-topic">Clinica Medica</span><span class="card-date">2025 Aug 7</span></div>
+  <h3 class="card-title">Aldosteronismo Primário: Uma Diretriz de Prática Clínica da Sociedade Endócrina</h3>
+  <p class="card-journal">The Journal of clinical endocrinology and metaboli...</p>
+  <p class="card-resumo">FUNDAMENTO: O aldosteronismo primário (AP), um distúrbio adrenal primário que leva à produção excessiva de aldosterona por uma ou ambas as glândulas supra-renais, é uma causa comum de hipertensão. Está associada a um risco aumentado de complicações cardiovasculares em comparação com a hipertensão primária. Apesar dos métodos eficazes para diagnosticar e tratar a PA, ela permanece marcadamente subdiagnosticada e subtratada. OBJETIVO: Desenvolver uma diretriz atualizada que forneça uma abordagem prática e clínica para identificar e gerenciar AP para melhorar as taxas de diagnóstico e incentivar o tratamento direcionado. MÉTODOS: O Guideline Development Panel (GDP), composto por um painel multidisciplinar de especialistas clínicos e especialistas em metodologia de revisão sistêmica, utilizou a abordagem Grading of Recommendations, Assessment, Development, and Evaluation (GRADE) para definir 10 questões relacionadas ao diagnóstico e tratamento da AP. Revisões sistemáticas foram realizadas para cada questão. O PIB utilizou o quadro GRADE Evidence to Decision (EtD) para considerar factores contextuais, tais como valores e preferências das partes interessadas, custos e recursos necessários, relação custo-eficácia, aceitabilidade, viabilidade e o impacto potencial na equidade na saúde.</p>
   <div class="card-footer">
-    <a class="card-link" href="https://doi.org/10.1210/clinem/dgaf284" target="_blank">Ler artigo completo →</a>
+    <a class="card-link" href="https://doi.org/10.1210/clinem/dgaf284" target="_blank">Ler artigo completo no PubMed &rarr;</a>
     <span class="card-authors">Adler GK, Stowasser M, Correa RR et al.</span>
   </div>
 </div>
 
 <div class="card">
-  <div class="card-meta">
-    <span class="badge badge-guide">Diretriz</span>
-    <span class="badge badge-topic">Sepse</span>
-    <span class="card-date">2025 Mar 1</span>
-  </div>
-  <h3 class="card-title">A Focused Update to the Clinical Practice Guidelines for the Prevention and Management of Pain, Anxiety, Agitation/Sedation, Delirium, Immobility, and Sleep Disruption in Adult Patients in the ICU</h3>
+  <div class="card-meta"><span class="badge badge-guide">Diretriz</span><span class="badge badge-topic">Sepse</span><span class="card-date">2025 Mar 1</span></div>
+  <h3 class="card-title">Uma atualização focada nas diretrizes de prática clínica para a prevenção e tratamento da dor, ansiedade, agitação/sedação, delírio, imobilidade e perturbação do sono em pacientes adultos na UTI</h3>
   <p class="card-journal">Critical care medicine</p>
-  <p class="card-resumo">RATIONALE: Critically ill adults are at risk for a variety of distressing and consequential symptoms both during and after an ICU stay. Management of these symptoms can directly influence outcomes. OBJECTIVES: The objective was to update and expand the Society of Critical Care Medicine's 2018 Clinical Practice Guidelines for the Prevention and Management of Pain, Agitation/Sedation, Delirium, Immobility, and Sleep Disruption in Adult Patients in the ICU.</p>
+  <p class="card-resumo">JUSTIFICATIVA: Adultos gravemente enfermos correm o risco de apresentar uma variedade de sintomas angustiantes e consequentes durante e após uma internação na UTI. O manejo desses sintomas pode influenciar diretamente os resultados. OBJETIVOS: O objetivo foi atualizar e ampliar as Diretrizes de Prática Clínica de 2018 da Society of Critical Care Medicine para a Prevenção e Tratamento da Dor, Agitação/Sedação, Delirium, Imobilidade e Perturbação do Sono em Pacientes Adultos na UTI. DESENHO DO PAINEL: O grupo de trabalho de diretrizes inclusivas interprofissionais foi composto por 24 indivíduos, incluindo enfermeiros, médicos, farmacêuticos, fisioterapeutas, psicólogos e sobreviventes de UTI. A força-tarefa desenvolveu recomendações baseadas em evidências usando a abordagem de Classificação de Recomendações, Avaliação, Desenvolvimento e Avaliação (GRADE). As políticas de conflito de interesses foram rigorosamente seguidas em todas as fases das diretrizes, incluindo a seleção e votação do grupo de trabalho. MÉTODOS: A força-tarefa se concentrou em cinco áreas principais de conteúdo referentes a pacientes adultos de UTI: ansiedade (novo tópico), agitação/sedação, delírio, imobilidade e perturbação do sono.</p>
   <div class="card-footer">
-    <a class="card-link" href="https://doi.org/10.1097/CCM.0000000000006574" target="_blank">Ler artigo completo →</a>
+    <a class="card-link" href="https://doi.org/10.1097/CCM.0000000000006574" target="_blank">Ler artigo completo no PubMed &rarr;</a>
     <span class="card-authors">Lewis K, Balas MC, Stollings JL et al.</span>
   </div>
 </div>
 
 <div class="card">
-  <div class="card-meta">
-    <span class="badge badge-guide">Diretriz</span>
-    <span class="badge badge-topic">Sepse</span>
-    <span class="card-date">2025 Dec</span>
-  </div>
-  <h3 class="card-title">[S3 guideline on sepsis-prevention, diagnosis, therapy, and follow-up care-update 2025]</h3>
-  <p class="card-journal">Medizinische Klinik, Intensivmedizin und Notfallme…</p>
-  <p class="card-resumo">BACKGROUND: Sepsis is an acute, life-threatening multiple organ dysfunction triggered by an infection. METHODS: This guideline is an update of the S3 guideline "Sepsis-prevention, diagnosis, therapy, and follow-up care" (Arbeitsgemeinschaft der Wissenschaftlichen Medizinischen Fachgesellschaft [AMWF] Registry No. 079-001) of the German Sepsis Society (DSG) dated 31 December 2018. The update of the "Surviving sepsis campaign (SSC): international guidelines for management of sepsis and septic shock 2021" dated 4 October 2021, was used as the reference guideline.</p>
+  <div class="card-meta"><span class="badge badge-guide">Diretriz</span><span class="badge badge-topic">Sepse</span><span class="card-date">2025 Dec</span></div>
+  <h3 class="card-title">[Diretriz S3 sobre prevenção de sepse, diagnóstico, terapia e atualização de cuidados de acompanhamento 2025]</h3>
+  <p class="card-journal">Medizinische Klinik, Intensivmedizin und Notfallme...</p>
+  <p class="card-resumo">FUNDAMENTO: A sepse é uma disfunção aguda de múltiplos órgãos com risco de vida, desencadeada por uma infecção. MÉTODOS: Esta diretriz é uma atualização da diretriz S3 "Prevenção de sepse, diagnóstico, terapia e cuidados de acompanhamento" (Arbeitsgemeinschaft der Wissenschaftlichen Medizinischen Fachgesellschaft [AMWF] Registro No. 079-001) da Sociedade Alemã de Sepse (DSG) datada de 31 de dezembro de 2018. A atualização do "Surviving campanha de sepse (SSC): diretrizes internacionais para gerenciamento de sepse e choque séptico 2021", datada de 4 de outubro de 2021, foi usada como diretriz de referência. A Comissão de Diretrizes DSG comparou cada recomendação sobre as questões PICO subjacentes da Diretriz DSG 2018 (pesquisa na literatura até dezembro de 2018) com as da Diretriz SSC 2021 (pesquisa na literatura até julho de 2019) e avaliou os dados publicados recentemente disponíveis (pesquisa na literatura até dezembro de 2024) por meio de pesquisas sistemáticas de atualização e revisões de literatura em conformidade com as regras do sistema de Classificação de Recomendações, Avaliação, Desenvolvimento e Avaliação (GRADE) e o AWMF. RESULTADOS: Foram abordadas um total de 88 questões PICO, incluindo aquelas relacionadas ao diagnóstico e tratamento de infecção e falência de órgãos.</p>
   <div class="card-footer">
-    <a class="card-link" href="https://doi.org/10.1016/j.jclinepi.2012.01.012" target="_blank">Ler artigo completo →</a>
+    <a class="card-link" href="https://doi.org/10.1016/j.jclinepi.2012.01.012" target="_blank">Ler artigo completo no PubMed &rarr;</a>
     <span class="card-authors">Brunkhorst FM, Adamzik M, Axer H et al.</span>
   </div>
 </div>
 
 <div class="card">
-  <div class="card-meta">
-    <span class="badge badge-meta">Revisão Sistemática</span>
-    <span class="badge badge-topic">ICC</span>
-    <span class="card-date">2025 Aug 10</span>
-  </div>
-  <h3 class="card-title">Pharmacotherapy for obesity management in adults: 2025 clinical practice guideline update</h3>
-  <p class="card-journal">CMAJ : Canadian Medical Association journal = jour…</p>
-  <p class="card-resumo">BACKGROUND: Pharmacotherapy is a key component of comprehensive obesity management, alongside behavioural therapy and metabolic and bariatric surgery. In this guideline, we update the pharmacotherapy recommendations in the 2020 Canadian clinical practice guideline on obesity in adults and in the 2022 pharmacotherapy for obesity management revision to provide current recommendations for clinicians on the efficacy, safety, and appropriate use of pharmacotherapy in the management of obesity in adults.</p>
+  <div class="card-meta"><span class="badge badge-meta">Revisao Sistematica</span><span class="badge badge-topic">ICC</span><span class="card-date">2025 Aug 10</span></div>
+  <h3 class="card-title">Farmacoterapia para tratamento da obesidade em adultos: atualização das diretrizes de prática clínica de 2025</h3>
+  <p class="card-journal">CMAJ : Canadian Medical Association journal = jour...</p>
+  <p class="card-resumo">FUNDAMENTO: A farmacoterapia é um componente chave do manejo abrangente da obesidade, juntamente com a terapia comportamental e a cirurgia metabólica e bariátrica. Nesta diretriz, atualizamos as recomendações de farmacoterapia na diretriz de prática clínica canadense de 2020 sobre obesidade em adultos e na revisão de farmacoterapia para controle da obesidade de 2022 para fornecer recomendações atuais para médicos sobre a eficácia, segurança e uso apropriado da farmacoterapia no tratamento da obesidade em adultos. MÉTODOS: Esta atualização das diretrizes segue a mesma metodologia da diretriz canadense de 2020 sobre obesidade em adultos, aderindo ao instrumento Avaliação das Diretrizes para Pesquisa e Avaliação e usando a estrutura Shekelle para avaliar e classificar evidências e formular recomendações. Com base na pesquisa realizada para a revisão da farmacoterapia de 2022, conduzimos uma revisão sistemática da literatura (datas de pesquisa de janeiro de 2022 a julho de 2024), complementada por ensaios relevantes publicados até maio de 2025, para identificar estudos que avaliam a eficácia da farmacoterapia no controle de peso. Também realizamos 13 pesquisas direcionadas sobre o manejo de complicações relacionadas ao peso em 13 subpopulações com importantes problemas de saúde relacionados à adiposidade.</p>
   <div class="card-footer">
-    <a class="card-link" href="https://doi.org/10.1016/j.jacc.2025.05.024" target="_blank">Ler artigo completo →</a>
+    <a class="card-link" href="https://doi.org/10.1016/j.jacc.2025.05.024" target="_blank">Ler artigo completo no PubMed &rarr;</a>
     <span class="card-authors">Pedersen SD, Manjoo P, Dash S et al.</span>
   </div>
 </div>
 
 <div class="card">
-  <div class="card-meta">
-    <span class="badge badge-guide">Diretriz</span>
-    <span class="badge badge-topic">ICC</span>
-    <span class="card-date">2025 Mar</span>
-  </div>
-  <h3 class="card-title">European Society of Intensive Care Medicine (ESICM) 2025 clinical practice guideline on fluid therapy in adult critically ill patients: part 2-the volume of resuscitation fluids</h3>
+  <div class="card-meta"><span class="badge badge-guide">Diretriz</span><span class="badge badge-topic">ICC</span><span class="card-date">2025 Mar</span></div>
+  <h3 class="card-title">Diretriz de prática clínica de 2025 da Sociedade Europeia de Medicina Intensiva (ESICM) sobre fluidoterapia em pacientes adultos gravemente enfermos: parte 2 - o volume de fluidos de reanimação</h3>
   <p class="card-journal">Intensive care medicine</p>
-  <p class="card-resumo">OBJECTIVE: This European Society of Intensive Care Medicine (ESICM) guideline provides evidence-based recommendations on the volume of early resuscitation fluid for adult critically ill patients. METHODS: An international panel of experts developed the guideline, focusing on fluid resuscitation volume in adult critically ill patients with circulatory failure. Using the PICO format, questions were formulated, and the Grading of Recommendations Assessment, Development, and Evaluation (GRADE) approach was applied to assess evidence and formulate recommendations.</p>
+  <p class="card-resumo">OBJETIVO: Esta diretriz da Sociedade Europeia de Medicina Intensiva (ESICM) fornece recomendações baseadas em evidências sobre o volume de fluido de reanimação precoce para pacientes adultos gravemente enfermos. MÉTODOS: Um painel internacional de especialistas desenvolveu a diretriz, com foco no volume de ressuscitação com fluidos em pacientes adultos gravemente enfermos com insuficiência circulatória. Utilizando o formato PICO, foram formuladas perguntas e a abordagem de Avaliação, Desenvolvimento e Avaliação de Classificação de Recomendações (GRADE) foi aplicada para avaliar evidências e formular recomendações. RESULTADOS: Em adultos com sepse ou choque séptico, a diretriz sugere a administração de até 30 ml/kg de cristaloides intravenosos na fase inicial, com ajustes baseados no contexto clínico e reavaliações frequentes (muito baixa qualidade de evidência). Sugerimos utilizar uma abordagem individualizada na fase de otimização (certeza de evidência muito baixa). Nenhuma recomendação poderia ser feita a favor ou contra estratégias fluidas restritivas ou liberais na fase de otimização (certeza moderada de nenhum efeito).</p>
   <div class="card-footer">
-    <a class="card-link" href="https://doi.org/10.1164/rccm.201603-0645OC" target="_blank">Ler artigo completo →</a>
+    <a class="card-link" href="https://doi.org/10.1164/rccm.201603-0645OC" target="_blank">Ler artigo completo no PubMed &rarr;</a>
     <span class="card-authors">Mekontso Dessap A, AlShamsi F, Belletti A et al.</span>
   </div>
 </div>
   </div>
 
-  <!-- ABA: ARQUIVO -->
   <div id="aba-arquivo" class="secao">
     <div class="secao-titulo">
-      <h2>Arquivo de edições</h2>
-      <span class="qtd">histórico completo</span>
+      <h2>Arquivo de edicoes</h2>
+      <span class="qtd">historico completo</span>
     </div>
     
-        <a class="arquivo-card" href="2026-05-11.html">
-          <div class="arquivo-data">11/05/2026</div>
-          <div class="arquivo-label">Edição 11/05</div>
-          <div class="arquivo-qtd">8 artigos</div>
-        </a>
-        <a class="arquivo-card" href="2026-05-10.html">
-          <div class="arquivo-data">10 May 2026</div>
-          <div class="arquivo-label">Edição 10/05</div>
-          <div class="arquivo-qtd">8 artigos</div>
-        </a>
+<a class="arquivo-card" href="2026-05-11.html">
+  <div class="arquivo-data">11/05/2026</div>
+  <div class="arquivo-label">Edicao 11/05</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-05-10.html">
+  <div class="arquivo-data">10 May 2026</div>
+  <div class="arquivo-label">Edicao 10/05</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
   </div>
 
 </div>
 
 <div class="rodape">
-  <div>© ClinicaUpdate · gerado automaticamente via PubMed</div>
-  <div><a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank">PubMed</a> · atualizado toda segunda-feira às 3h</div>
+  <div>&copy; ClinicaUpdate &middot; gerado automaticamente via PubMed</div>
+  <div><a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank">PubMed</a> &middot; atualizado toda segunda-feira as 3h</div>
 </div>
 
 <script>
 function mostrarAba(id, el) {
-  document.querySelectorAll('.secao').forEach(function(s) { s.classList.remove('ativa'); });
-  document.querySelectorAll('.aba').forEach(function(a) { a.classList.remove('ativa'); });
+  var secoes = document.querySelectorAll('.secao');
+  for (var i = 0; i < secoes.length; i++) secoes[i].classList.remove('ativa');
+  var abas = document.querySelectorAll('.aba');
+  for (var j = 0; j < abas.length; j++) abas[j].classList.remove('ativa');
   document.getElementById('aba-' + id).classList.add('ativa');
   el.classList.add('ativa');
-  return false;
 }
 </script>
 
