@@ -1,7 +1,8 @@
+
 #!/usr/bin/env python3
 """
-ClinicaUpdate — gerador semanal automático
-Busca artigos e guidelines no PubMed e gera HTML com curadoria da semana.
+ClinicaUpdate - gerador semanal automatico
+Busca artigos e guidelines no PubMed, traduz para portugues e gera HTML.
 """
 
 import json
@@ -12,27 +13,61 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
-# ── tópicos de curadoria ─────────────────────────────────────────────────────
+
+# -- traducao automatico -> portugues -----------------------------------------
+
+def traduzir(texto, tentativas=3):
+    """Traduz ingles -> portugues via Google Translate (sem chave de API)."""
+    if not texto or not texto.strip():
+        return texto
+    params = urllib.parse.urlencode({
+        "client": "gtx", "sl": "en", "tl": "pt", "dt": "t",
+        "q": texto[:4500],
+    })
+    url = "https://translate.googleapis.com/translate_a/single?" + params
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    for i in range(tentativas):
+        try:
+            with urllib.request.urlopen(req, timeout=15) as r:
+                data = json.loads(r.read())
+                return "".join(seg[0] for seg in data[0] if seg[0])
+        except Exception:
+            if i < tentativas - 1:
+                time.sleep(1.5)
+    return texto
+
+
+def traduzir_artigo(art):
+    """Traduz titulo e resumo de um artigo."""
+    print("    traduzindo: " + art["title"][:60] + "...")
+    art["title"]    = traduzir(art["title"])
+    art["abstract"] = traduzir(art["abstract"])
+    time.sleep(0.3)
+    return art
+
+
+# -- topicos de curadoria -----------------------------------------------------
+
 TOPICS = [
     ("sepsis management treatment", "Sepse"),
     ("heart failure randomized trial", "ICC"),
     ("community acquired pneumonia antibiotic", "Pneumonia"),
     ("acute kidney injury", "LRA"),
     ("venous thromboembolism pulmonary embolism", "TEP / TVP"),
-    ("hypertension treatment randomized", "Hipertensão"),
-    ("atrial fibrillation management", "Fibrilação Atrial"),
+    ("hypertension treatment randomized", "Hipertensao"),
+    ("atrial fibrillation management", "Fibrilacao Atrial"),
     ("type 2 diabetes mellitus treatment", "Diabetes tipo 2"),
     ("acute pancreatitis management", "Pancreatite"),
     ("liver cirrhosis complication", "Cirrose"),
 ]
 
 GUIDELINE_TOPICS = [
-    ("clinical practice guideline internal medicine 2025", "Clínica Médica"),
+    ("clinical practice guideline internal medicine 2025", "Clinica Medica"),
     ("guidelines sepsis management 2025", "Sepse"),
     ("guidelines heart failure 2025", "ICC"),
-    ("guidelines hypertension 2025", "Hipertensão"),
+    ("guidelines hypertension 2025", "Hipertensao"),
     ("guidelines diabetes mellitus 2025", "Diabetes"),
-    ("guidelines anticoagulation atrial fibrillation 2025", "Fibrilação Atrial"),
+    ("guidelines anticoagulation atrial fibrillation 2025", "Fibrilacao Atrial"),
     ("guidelines venous thromboembolism 2025", "TEP / TVP"),
 ]
 
@@ -52,7 +87,7 @@ MAX_PER_TOPIC = 3
 BASE_URL      = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 
 
-# ── busca PubMed ─────────────────────────────────────────────────────────────
+# -- busca PubMed -------------------------------------------------------------
 
 def fetch(url, retries=3, delay=1.5):
     for attempt in range(retries):
@@ -63,15 +98,15 @@ def fetch(url, retries=3, delay=1.5):
             if attempt < retries - 1:
                 time.sleep(delay * (attempt + 1))
             else:
-                print(f"  [erro] {e}")
+                print("  [erro] " + str(e))
                 return b""
 
 
 def search_pmids(query, date_from, date_to, max_results=5):
     q = urllib.parse.quote(
-        f'({query})[Title/Abstract] AND ("{date_from}"[pdat]:"{date_to}"[pdat])'
+        '(' + query + ')[Title/Abstract] AND ("' + date_from + '"[pdat]:"' + date_to + '"[pdat])'
     )
-    url = f"{BASE_URL}/esearch.fcgi?db=pubmed&term={q}&retmax={max_results}&sort=relevance&retmode=json"
+    url = BASE_URL + "/esearch.fcgi?db=pubmed&term=" + q + "&retmax=" + str(max_results) + "&sort=relevance&retmode=json"
     data = fetch(url)
     if not data:
         return []
@@ -83,9 +118,9 @@ def search_pmids(query, date_from, date_to, max_results=5):
 
 def search_guideline_pmids(query, max_results=3):
     q = urllib.parse.quote(
-        f'({query})[Title/Abstract] AND ("guideline"[Publication Type] OR "practice guideline"[Publication Type])'
+        '(' + query + ')[Title/Abstract] AND ("guideline"[Publication Type] OR "practice guideline"[Publication Type])'
     )
-    url = f"{BASE_URL}/esearch.fcgi?db=pubmed&term={q}&retmax={max_results}&sort=relevance&retmode=json"
+    url = BASE_URL + "/esearch.fcgi?db=pubmed&term=" + q + "&retmax=" + str(max_results) + "&sort=relevance&retmode=json"
     data = fetch(url)
     if not data:
         return []
@@ -98,7 +133,7 @@ def search_guideline_pmids(query, max_results=3):
 def fetch_summaries(pmids):
     if not pmids:
         return {}
-    url = f"{BASE_URL}/esummary.fcgi?db=pubmed&id={','.join(pmids)}&retmode=json"
+    url = BASE_URL + "/esummary.fcgi?db=pubmed&id=" + ",".join(pmids) + "&retmode=json"
     data = fetch(url)
     if not data:
         return {}
@@ -111,7 +146,7 @@ def fetch_summaries(pmids):
 def fetch_abstracts_and_dois(pmids):
     if not pmids:
         return {}, {}
-    url = f"{BASE_URL}/efetch.fcgi?db=pubmed&id={','.join(pmids)}&rettype=abstract&retmode=xml"
+    url = BASE_URL + "/efetch.fcgi?db=pubmed&id=" + ",".join(pmids) + "&rettype=abstract&retmode=xml"
     data = fetch(url)
     if not data:
         return {}, {}
@@ -129,14 +164,14 @@ def fetch_abstracts_and_dois(pmids):
                 label = p.get("Label", "")
                 text = (p.text or "").strip()
                 if text:
-                    abs_parts.append(f"{label}: {text}" if label else text)
+                    abs_parts.append((label + ": " + text) if label else text)
             if abs_parts:
                 abs_map[pmid] = " ".join(abs_parts)
             for aid in article.findall(".//ArticleId"):
                 if aid.get("IdType") == "doi" and aid.text:
                     doi_map[pmid] = aid.text.strip()
     except Exception as e:
-        print(f"  [erro XML] {e}")
+        print("  [erro XML] " + str(e))
     return abs_map, doi_map
 
 
@@ -148,9 +183,11 @@ def score_article(summary, pubtype_list):
             score += (len(PREFERRED_PUBTYPES) - i) * 10
             break
     journal = (summary.get("fulljournalname") or "").lower()
-    HIGH_IMPACT = ["new england journal", "lancet", "jama", "british medical journal",
-                   "annals of internal medicine", "nature medicine", "bmj",
-                   "chest", "circulation", "european heart journal"]
+    HIGH_IMPACT = [
+        "new england journal", "lancet", "jama", "british medical journal",
+        "annals of internal medicine", "nature medicine", "bmj",
+        "chest", "circulation", "european heart journal"
+    ]
     if any(j in journal for j in HIGH_IMPACT):
         score += 20
     return score
@@ -160,7 +197,7 @@ def collect_articles():
     seen_pmids = set()
     articles = []
     for query, label in TOPICS:
-        print(f"  → artigos: {label}")
+        print("  -> artigos: " + label)
         pmids = search_pmids(query, DATE_FROM, DATE_TO, max_results=MAX_PER_TOPIC + 2)
         pmids = [p for p in pmids if p not in seen_pmids]
         if not pmids:
@@ -191,14 +228,16 @@ def collect_articles():
             })
             seen_pmids.add(pmid)
     articles.sort(key=lambda a: a["score"], reverse=True)
-    return articles[:8]
+    best = articles[:8]
+    print("  Traduzindo artigos...")
+    return [traduzir_artigo(a) for a in best]
 
 
 def collect_guidelines():
     seen_pmids = set()
     guidelines = []
     for query, label in GUIDELINE_TOPICS:
-        print(f"  → guidelines: {label}")
+        print("  -> guidelines: " + label)
         pmids = search_guideline_pmids(query, max_results=2)
         pmids = [p for p in pmids if p not in seen_pmids]
         if not pmids:
@@ -223,23 +262,25 @@ def collect_guidelines():
                 "topic_label": label,
             })
             seen_pmids.add(pmid)
-    return guidelines[:6]
+    best = guidelines[:6]
+    print("  Traduzindo diretrizes...")
+    return [traduzir_artigo(g) for g in best]
 
 
-# ── helpers HTML ──────────────────────────────────────────────────────────────
+# -- helpers HTML -------------------------------------------------------------
 
 def tipo_badge(pubtypes):
     t = " ".join(pubtypes).lower()
     if "randomized" in t or "phase iii" in t:
-        return '<span class="badge badge-rct">Ensaio Clínico</span>'
+        return '<span class="badge badge-rct">Ensaio Clinico</span>'
     if "meta-analysis" in t:
-        return '<span class="badge badge-meta">Meta-análise</span>'
+        return '<span class="badge badge-meta">Meta-analise</span>'
     if "systematic review" in t:
-        return '<span class="badge badge-meta">Revisão Sistemática</span>'
+        return '<span class="badge badge-meta">Revisao Sistematica</span>'
     if "guideline" in t or "practice guideline" in t:
         return '<span class="badge badge-guide">Diretriz</span>'
     if "review" in t:
-        return '<span class="badge badge-review">Revisão</span>'
+        return '<span class="badge badge-review">Revisao</span>'
     return '<span class="badge badge-obs">Estudo</span>'
 
 
@@ -251,49 +292,49 @@ def fmt_authors(authors):
 
 def article_link(art):
     if art.get("doi"):
-        return f"https://doi.org/{art['doi']}"
-    return f"https://pubmed.ncbi.nlm.nih.gov/{art['pmid']}"
+        return "https://doi.org/" + art["doi"]
+    return "https://pubmed.ncbi.nlm.nih.gov/" + art["pmid"]
 
 
 def resumo_curto(abstract):
-    """Retorna no máximo ~600 caracteres para leitura rápida (~2 min)."""
-    if len(abstract) <= 600:
+    if len(abstract) <= 1400:
         return abstract
-    # tenta cortar em frase completa
-    trunc = abstract[:600]
+    trunc = abstract[:1400]
     last_period = trunc.rfind(". ")
-    if last_period > 300:
+    if last_period > 600:
         return trunc[:last_period + 1]
-    return trunc + "…"
+    return trunc + "..."
 
 
 def render_card(art):
     badge   = tipo_badge(art["pubtype"])
-    journal = art["journal"][:50] + "…" if len(art["journal"]) > 50 else art["journal"]
-    resumo  = resumo_curto(art["abstract"]) if art["abstract"] else "Resumo não disponível para este artigo."
+    journal = art["journal"]
+    if len(journal) > 50:
+        journal = journal[:50] + "..."
+    resumo  = resumo_curto(art["abstract"]) if art["abstract"] else "Resumo nao disponivel para este artigo."
     authors = fmt_authors(art["authors"])
     link    = article_link(art)
     label   = art.get("topic_label", "")
     date    = art.get("pub_date", "")
 
-    return f"""
-<div class="card">
-  <div class="card-meta">
-    {badge}
-    {f'<span class="badge badge-topic">{label}</span>' if label else ''}
-    {f'<span class="card-date">{date}</span>' if date else ''}
-  </div>
-  <h3 class="card-title">{art["title"]}</h3>
-  <p class="card-journal">{journal}</p>
-  <p class="card-resumo">{resumo}</p>
-  <div class="card-footer">
-    <a class="card-link" href="{link}" target="_blank">Ler artigo completo →</a>
-    <span class="card-authors">{authors}</span>
-  </div>
-</div>"""
+    badge_topic = ('<span class="badge badge-topic">' + label + "</span>") if label else ""
+    data_span   = ('<span class="card-date">' + date + "</span>") if date else ""
+
+    return (
+        '\n<div class="card">'
+        '\n  <div class="card-meta">' + badge + badge_topic + data_span + "</div>"
+        '\n  <h3 class="card-title">' + art["title"] + "</h3>"
+        '\n  <p class="card-journal">' + journal + "</p>"
+        '\n  <p class="card-resumo">' + resumo + "</p>"
+        '\n  <div class="card-footer">'
+        '\n    <a class="card-link" href="' + link + '" target="_blank">Ler artigo completo no PubMed &rarr;</a>'
+        '\n    <span class="card-authors">' + authors + "</span>"
+        "\n  </div>"
+        "\n</div>"
+    )
 
 
-# ── CSS ───────────────────────────────────────────────────────────────────────
+# -- CSS ----------------------------------------------------------------------
 
 CSS = """
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
@@ -324,7 +365,6 @@ body {
   line-height: 1.65;
 }
 
-/* cabeçalho */
 .cabecalho {
   background: var(--text);
   color: #fff;
@@ -362,7 +402,6 @@ body {
 }
 .cabecalho-info strong { color: #ddd; }
 
-/* abas */
 .abas {
   background: #fff;
   border-bottom: 1px solid var(--border);
@@ -385,18 +424,17 @@ body {
   white-space: nowrap;
   transition: color 0.15s, border-color 0.15s;
   text-decoration: none;
+  display: inline-block;
 }
 .aba:hover { color: var(--red); }
 .aba.ativa { color: var(--red); border-bottom-color: var(--red); }
 
-/* página */
 .pagina {
   max-width: 860px;
   margin: 0 auto;
   padding: 36px 24px 80px;
 }
 
-/* aviso leitura rápida */
 .aviso-leitura {
   background: #fff;
   border: 1px solid var(--border);
@@ -405,11 +443,9 @@ body {
   font-size: 0.84rem;
   color: var(--text2);
   margin-bottom: 28px;
-  border-radius: 2px;
 }
 .aviso-leitura strong { color: var(--green); }
 
-/* seção */
 .secao { display: none; }
 .secao.ativa { display: block; }
 
@@ -431,7 +467,6 @@ body {
   color: var(--text3);
 }
 
-/* card */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -439,7 +474,6 @@ body {
   padding: 22px 24px;
   margin-bottom: 14px;
   transition: border-left-color 0.2s, box-shadow 0.2s;
-  border-radius: 2px;
 }
 .card:hover {
   border-left-color: var(--red);
@@ -523,7 +557,6 @@ body {
   flex: 1;
 }
 
-/* arquivo */
 .arquivo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -537,36 +570,18 @@ body {
   text-decoration: none;
   color: var(--text);
   transition: border-color 0.15s, box-shadow 0.15s;
-  border-radius: 2px;
   display: block;
 }
 .arquivo-card:hover {
   border-color: var(--red);
   box-shadow: 0 2px 10px rgba(0,0,0,0.06);
 }
-.arquivo-data {
-  font-size: 0.72rem;
-  color: var(--text3);
-  margin-bottom: 4px;
-}
-.arquivo-label {
-  font-family: 'Lora', serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-}
-.arquivo-qtd {
-  font-size: 0.7rem;
-  color: var(--text3);
-  margin-top: 4px;
-}
+.arquivo-data { font-size: 0.72rem; color: var(--text3); margin-bottom: 4px; }
+.arquivo-label { font-family: 'Lora', serif; font-size: 0.95rem; font-weight: 600; }
+.arquivo-qtd { font-size: 0.7rem; color: var(--text3); margin-top: 4px; }
 
-.divisor {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: 32px 0;
-}
+.divisor { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
 
-/* rodapé */
 .rodape {
   background: var(--text);
   color: #555;
@@ -591,127 +606,128 @@ body {
 """
 
 
-# ── HTML completo ─────────────────────────────────────────────────────────────
+# -- HTML completo ------------------------------------------------------------
 
 def build_html(articles, guidelines, edition_date, all_editions):
-    date_label   = edition_date.strftime("%d/%m/%Y")
-    date_extenso = edition_date.strftime("%-d de %B de %Y")
-    filename     = edition_date.strftime("%Y-%m-%d") + ".html"
-    n_art        = len(articles)
-    n_guide      = len(guidelines)
+    date_label = edition_date.strftime("%d/%m/%Y")
+    date_extenso = edition_date.strftime("%d de %B de %Y")
+    n_art   = len(articles)
+    n_guide = len(guidelines)
 
     cards_artigos    = "\n".join(render_card(a) for a in articles)
     cards_guidelines = "\n".join(render_card(g) for g in guidelines)
 
-    # links arquivo
     arquivo_links = ""
     for ed in sorted(all_editions, key=lambda e: e["date"], reverse=True):
         if ed["date"] == edition_date:
             continue
-        arquivo_links += f"""
-        <a class="arquivo-card" href="{ed['filename']}">
-          <div class="arquivo-data">{ed['date_label']}</div>
-          <div class="arquivo-label">Edição {ed['date'].strftime('%d/%m')}</div>
-          <div class="arquivo-qtd">{ed['count']} artigos</div>
-        </a>"""
+        arquivo_links += (
+            '\n<a class="arquivo-card" href="' + ed["filename"] + '">'
+            '\n  <div class="arquivo-data">' + ed["date_label"] + "</div>"
+            '\n  <div class="arquivo-label">Edicao ' + ed["date"].strftime("%d/%m") + "</div>"
+            '\n  <div class="arquivo-qtd">' + str(ed["count"]) + " artigos</div>"
+            "\n</a>"
+        )
 
     arquivo_section = ""
     if arquivo_links:
-        arquivo_section = f"""
-        <hr class="divisor">
-        <div class="secao-titulo">
-          <h2>Edições anteriores</h2>
-        </div>
-        <div class="arquivo-grid">{arquivo_links}</div>"""
+        arquivo_section = (
+            '\n<hr class="divisor">'
+            '\n<div class="secao-titulo"><h2>Edicoes anteriores</h2></div>'
+            '\n<div class="arquivo-grid">' + arquivo_links + "\n</div>"
+        )
 
-    return f"""<!DOCTYPE html>
+    sem_artigos = '<p style="color:var(--text3);font-size:.9rem;">Nenhum artigo encontrado esta semana.</p>'
+    sem_guias   = '<p style="color:var(--text3);font-size:.9rem;">Nenhuma diretriz encontrada esta semana.</p>'
+    sem_arquivo = '<p style="color:var(--text3);font-size:.9rem;">Esta e a primeira edicao. O historico aparecera aqui nas proximas semanas.</p>'
+
+    return """<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ClinicaUpdate — {date_label}</title>
-  <style>{CSS}</style>
+  <title>ClinicaUpdate &mdash; """ + date_label + """</title>
+  <style>""" + CSS + """</style>
 </head>
 <body>
 
 <div class="cabecalho">
   <div class="cabecalho-inner">
     <div>
-      <div class="logo">Clínica<span>Update</span></div>
+      <div class="logo">Clinica<span>Update</span></div>
       <div class="logo-sub">Curadoria semanal em medicina interna</div>
     </div>
     <div class="cabecalho-info">
-      <strong>Edição de {date_extenso}</strong><br>
-      Fonte: PubMed · NEJM · Lancet · JAMA · BMJ<br>
+      <strong>Edicao de """ + date_extenso + """</strong><br>
+      Fonte: PubMed &middot; NEJM &middot; Lancet &middot; JAMA &middot; BMJ<br>
       Atualizado toda segunda-feira
     </div>
   </div>
 </div>
 
 <div class="abas">
-  <a class="aba ativa" onclick="mostrarAba('artigos', this)" href="#">📄 Artigos da semana</a>
-  <a class="aba" onclick="mostrarAba('diretrizes', this)" href="#">📋 Diretrizes recentes</a>
-  <a class="aba" onclick="mostrarAba('arquivo', this)" href="#">🗂 Arquivo</a>
+  <a class="aba ativa" href="#" onclick="mostrarAba('artigos',this);return false;">Artigos da semana</a>
+  <a class="aba" href="#" onclick="mostrarAba('diretrizes',this);return false;">Diretrizes recentes</a>
+  <a class="aba" href="#" onclick="mostrarAba('arquivo',this);return false;">Arquivo</a>
 </div>
 
 <div class="pagina">
 
   <div class="aviso-leitura">
-    <strong>Leitura rápida:</strong> cada resumo foi pensado para ser lido em até 5 minutos. O link ao final leva ao artigo completo no PubMed.
+    <strong>Leitura rapida:</strong> cada resumo foi escrito para ser lido em ate 5 minutos.
+    Clique em "Ler artigo completo" para acessar o texto original no PubMed.
   </div>
 
-  <!-- ABA: ARTIGOS -->
   <div id="aba-artigos" class="secao ativa">
     <div class="secao-titulo">
       <h2>Artigos da semana</h2>
-      <span class="qtd">{n_art} artigos selecionados · {date_extenso}</span>
+      <span class="qtd">""" + str(n_art) + """ artigos selecionados &middot; """ + date_extenso + """</span>
     </div>
-    {cards_artigos if cards_artigos else '<p style="color:var(--text3);font-size:.9rem;">Nenhum artigo encontrado esta semana.</p>'}
+    """ + (cards_artigos if cards_artigos else sem_artigos) + """
   </div>
 
-  <!-- ABA: DIRETRIZES -->
   <div id="aba-diretrizes" class="secao">
     <div class="secao-titulo">
       <h2>Diretrizes recentes</h2>
-      <span class="qtd">{n_guide} diretrizes encontradas</span>
+      <span class="qtd">""" + str(n_guide) + """ diretrizes encontradas</span>
     </div>
     <p style="font-size:.87rem;color:var(--text2);margin-bottom:22px;line-height:1.7;">
-      Seleção de diretrizes e recomendações clínicas publicadas recentemente em medicina interna. Clique em "Ler artigo completo" para acessar o texto original no PubMed.
+      Selecao de diretrizes e recomendacoes clinicas publicadas recentemente em medicina interna.
     </p>
-    {cards_guidelines if cards_guidelines else '<p style="color:var(--text3);font-size:.9rem;">Nenhuma diretriz encontrada esta semana.</p>'}
+    """ + (cards_guidelines if cards_guidelines else sem_guias) + """
   </div>
 
-  <!-- ABA: ARQUIVO -->
   <div id="aba-arquivo" class="secao">
     <div class="secao-titulo">
-      <h2>Arquivo de edições</h2>
-      <span class="qtd">histórico completo</span>
+      <h2>Arquivo de edicoes</h2>
+      <span class="qtd">historico completo</span>
     </div>
-    {arquivo_links if arquivo_links else '<p style="color:var(--text3);font-size:.9rem;">Esta é a primeira edição — o histórico aparecerá aqui nas próximas semanas.</p>'}
+    """ + (arquivo_links if arquivo_links else sem_arquivo) + """
   </div>
 
 </div>
 
 <div class="rodape">
-  <div>© ClinicaUpdate · gerado automaticamente via PubMed</div>
-  <div><a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank">PubMed</a> · atualizado toda segunda-feira às 3h</div>
+  <div>&copy; ClinicaUpdate &middot; gerado automaticamente via PubMed</div>
+  <div><a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank">PubMed</a> &middot; atualizado toda segunda-feira as 3h</div>
 </div>
 
 <script>
-function mostrarAba(id, el) {{
-  document.querySelectorAll('.secao').forEach(function(s) {{ s.classList.remove('ativa'); }});
-  document.querySelectorAll('.aba').forEach(function(a) {{ a.classList.remove('ativa'); }});
+function mostrarAba(id, el) {
+  var secoes = document.querySelectorAll('.secao');
+  for (var i = 0; i < secoes.length; i++) secoes[i].classList.remove('ativa');
+  var abas = document.querySelectorAll('.aba');
+  for (var j = 0; j < abas.length; j++) abas[j].classList.remove('ativa');
   document.getElementById('aba-' + id).classList.add('ativa');
   el.classList.add('ativa');
-  return false;
-}}
+}
 </script>
 
 </body>
 </html>"""
 
 
-# ── main ──────────────────────────────────────────────────────────────────────
+# -- main ---------------------------------------------------------------------
 
 def load_manifest(docs_dir):
     p = docs_dir / "editions.json"
@@ -732,21 +748,22 @@ def main():
     docs_dir.mkdir(exist_ok=True)
 
     today = datetime.now()
-    print(f"[ClinicaUpdate] Edição de {today.strftime('%d/%m/%Y')}")
+    print("[ClinicaUpdate] Edicao de " + today.strftime("%d/%m/%Y"))
+
     print("[ClinicaUpdate] Buscando artigos...")
     articles = collect_articles()
-    print(f"[ClinicaUpdate] {len(articles)} artigos selecionados.")
+    print("[ClinicaUpdate] " + str(len(articles)) + " artigos prontos.")
 
     print("[ClinicaUpdate] Buscando diretrizes...")
     guidelines = collect_guidelines()
-    print(f"[ClinicaUpdate] {len(guidelines)} diretrizes encontradas.")
+    print("[ClinicaUpdate] " + str(len(guidelines)) + " diretrizes prontas.")
 
     if not articles and not guidelines:
         print("[ClinicaUpdate] Nada encontrado. Abortando.")
         return
 
     manifest = load_manifest(docs_dir)
-    edition_filename  = today.strftime("%Y-%m-%d") + ".html"
+    edition_filename   = today.strftime("%Y-%m-%d") + ".html"
     edition_date_label = today.strftime("%d/%m/%Y")
 
     if not any(e["filename"] == edition_filename for e in manifest):
@@ -772,9 +789,8 @@ def main():
     (docs_dir / "index.html").write_text(html, encoding="utf-8")
     (docs_dir / ".nojekyll").write_text("")
 
-    print(f"[ClinicaUpdate] Salvo: docs/{edition_filename}")
-    print("[ClinicaUpdate] index.html atualizado.")
-    print("[ClinicaUpdate] Concluído.")
+    print("[ClinicaUpdate] Salvo: docs/" + edition_filename)
+    print("[ClinicaUpdate] Concluido.")
 
 
 if __name__ == "__main__":
