@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClinicaUpdate &mdash; 12/10/2026</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f5f5f0;
+  --surface: #ffffff;
+  --border: #e0ddd6;
+  --text: #1c1c1e;
+  --text2: #4a4a4f;
+  --text3: #8a8a8f;
+  --red: #c0392b;
+  --blue: #1a4a8f;
+  --green: #1a6b3c;
+  --gold: #8a6000;
+  --purple: #5a1a8f;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.cabecalho {
+  background: var(--text);
+  color: #fff;
+  padding: 28px 32px 24px;
+  border-bottom: 4px solid var(--red);
+}
+.cabecalho-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.logo {
+  font-family: 'Lora', serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1;
+}
+.logo span { color: #ff7c7c; }
+.logo-sub {
+  font-size: 0.78rem;
+  color: #aaa;
+  margin-top: 5px;
+  letter-spacing: 0.04em;
+}
+.cabecalho-info {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #aaa;
+  line-height: 1.8;
+}
+.cabecalho-info strong { color: #ddd; }
+
+.abas {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.aba {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text3);
+  padding: 14px 20px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+  text-decoration: none;
+  display: inline-block;
+}
+.aba:hover { color: var(--red); }
+.aba.ativa { color: var(--red); border-bottom-color: var(--red); }
+
+.pagina {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 36px 24px 80px;
+}
+
+.aviso-leitura {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--green);
+  padding: 13px 18px;
+  font-size: 0.84rem;
+  color: var(--text2);
+  margin-bottom: 28px;
+}
+.aviso-leitura strong { color: var(--green); }
+
+.secao { display: none; }
+.secao.ativa { display: block; }
+
+.secao-titulo {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 22px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--text);
+}
+.secao-titulo h2 {
+  font-family: 'Lora', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.secao-titulo .qtd {
+  font-size: 0.78rem;
+  color: var(--text3);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid transparent;
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  transition: border-left-color 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  border-left-color: var(--red);
+  box-shadow: 0 3px 16px rgba(0,0,0,0.07);
+}
+
+.card-meta {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 3px;
+}
+.badge-rct    { background: #eaf0ff; color: #1a4a8f; border: 1px solid #c0d0ff; }
+.badge-meta   { background: #eafaf0; color: #1a6b3c; border: 1px solid #a0ddb8; }
+.badge-guide  { background: #f5eaff; color: #5a1a8f; border: 1px solid #d0a0ff; }
+.badge-review { background: #fff8e0; color: #7a5000; border: 1px solid #f0d880; }
+.badge-obs    { background: #f0f0f0; color: #4a4a4f; border: 1px solid #d8d8d8; }
+.badge-topic  { background: #fff0ea; color: #8f3a1a; border: 1px solid #ffcdb0; }
+
+.card-date {
+  font-size: 0.75rem;
+  color: var(--text3);
+  margin-left: 4px;
+}
+
+.card-title {
+  font-family: 'Lora', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.card-journal {
+  font-size: 0.78rem;
+  color: var(--text3);
+  font-style: italic;
+  margin-bottom: 11px;
+}
+
+.card-resumo {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--text2);
+  margin-bottom: 14px;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.card-link {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+  transition: color 0.15s;
+}
+.card-link:hover { color: var(--red); }
+
+.card-authors {
+  font-size: 0.75rem;
+  color: var(--text3);
+  font-style: italic;
+  flex: 1;
+}
+
+.arquivo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 6px;
+}
+.arquivo-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  display: block;
+}
+.arquivo-card:hover {
+  border-color: var(--red);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+.arquivo-data { font-size: 0.72rem; color: var(--text3); margin-bottom: 4px; }
+.arquivo-label { font-family: 'Lora', serif; font-size: 0.95rem; font-weight: 600; }
+.arquivo-qtd { font-size: 0.7rem; color: var(--text3); margin-top: 4px; }
+
+.divisor { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+.rodape {
+  background: var(--text);
+  color: #555;
+  padding: 20px 32px;
+  font-size: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.rodape a { color: #888; }
+
+@media (max-width: 600px) {
+  .cabecalho { padding: 20px 18px; }
+  .cabecalho-inner { flex-direction: column; align-items: flex-start; }
+  .cabecalho-info { text-align: left; }
+  .abas { padding: 0 14px; }
+  .pagina { padding: 24px 14px 60px; }
+  .card { padding: 16px 14px; }
+  .logo { font-size: 1.7rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="cabecalho">
+  <div class="cabecalho-inner">
+    <div>
+      <div class="logo">Clinica<span>Update</span></div>
+      <div class="logo-sub">Curadoria semanal em medicina interna</div>
+    </div>
+    <div class="cabecalho-info">
+      <strong>Edicao de 12 de October de 2026</strong><br>
+      Fonte: PubMed &middot; NEJM &middot; Lancet &middot; JAMA &middot; BMJ<br>
+      Atualizado toda segunda-feira
+    </div>
+  </div>
+</div>
+
+<div class="abas">
+  <a class="aba ativa" href="#" onclick="mostrarAba('artigos',this);return false;">Artigos da semana</a>
+  <a class="aba" href="#" onclick="mostrarAba('diretrizes',this);return false;">Diretrizes recentes</a>
+  <a class="aba" href="#" onclick="mostrarAba('arquivo',this);return false;">Arquivo</a>
+</div>
+
+<div class="pagina">
+
+  <div class="aviso-leitura">
+    <strong>Leitura rapida:</strong> cada resumo foi escrito para ser lido em ate 5 minutos.
+    Clique em "Ler artigo completo" para acessar o texto original no PubMed.
+  </div>
+
+  <div id="aba-artigos" class="secao ativa">
+    <div class="secao-titulo">
+      <h2>Artigos da semana</h2>
+      <span class="qtd">8 artigos selecionados &middot; 12 de October de 2026</span>
+    </div>
+    
+<div class="card">
+  <div class="card-meta"><span class="badge badge-rct">Ensaio Clinico</span><span class="badge badge-topic">ICC</span><span class="card-date">2026 Aug 6</span></div>
+  <h3 class="card-title">Finerenona em pessoas com doença renal crônica sem diabetes</h3>
+  <p class="card-journal">The New England journal of medicine</p>
+  <p class="card-resumo">FUNDAMENTO: Em ensaios randomizados, a finerenona, um antagonista não esteróide do receptor mineralocorticóide, melhorou os resultados renais e cardiovasculares em pacientes com diabetes tipo 2 e doença renal crônica (DRC). Não se sabe se a finerenona tem efeitos semelhantes em pacientes sem diabetes com DRC. MÉTODOS: Foram distribuídos aleatoriamente adultos sem diabetes que tinham DRC (taxa de filtração glomerular estimada [TFGe], 25 a <90 ml por minuto por 1,73 m. RESULTADOS: Um total de 1.584 participantes foram randomizados - 793 foram designados para o grupo de finerenona e 791 para o grupo de placebo. A TFGe basal média (±DP) foi de 46,8±16,2 ml por minuto por 1,73 m CONCLUSÕES: Entre adultos com DRC que não tinham diabetes, a finerenona levou a uma diminuição mais lenta na TFGe do que o placebo ao longo de 32 meses (financiado pela Bayer; número FIND-CKD ClinicalTrials.gov, NCT05047263.).</p>
+  <div class="card-footer">
+    <a class="card-link" href="https://doi.org/10.1056/NEJMoa2604625" target="_blank">Ler artigo completo no PubMed &rarr;</a>
+    <span class="card-authors">Heerspink HJL, Neuen BL, Agarwal R et al.</span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-meta"><span class="badge badge-rct">Ensaio Clinico</span><span class="badge badge-topic">LRA</span><span class="card-date">2026 Sep 1</span></div>
+  <h3 class="card-title">Dapagliflozina e lesão renal aguda após cirurgia cardíaca: um ensaio clínico randomizado</h3>
+  <p class="card-journal">JAMA</p>
+  <p class="card-resumo">IMPORTÂNCIA: Dois por cento a 50% dos pacientes submetidos à cirurgia cardíaca eletiva apresentam lesão renal aguda (LRA) no pós-operatório. Medicamentos para prevenir LRA após cirurgia cardíaca eletiva não foram identificados. OBJETIVO: Em pacientes submetidos à cirurgia cardíaca eletiva, avaliar se o início da dapagliflozina 1 dia antes da cirurgia reduz a incidência de LRA 7 dias após a cirurgia cardíaca, em comparação com placebo. PROJETO, LOCAL E PARTICIPANTES: Ensaio clínico randomizado multicêntrico, duplo-cego, controlado por placebo, realizado em 2 centros médicos acadêmicos e 5 hospitais não acadêmicos na Holanda. Os participantes elegíveis eram adultos submetidos a cirurgia cardíaca eletiva. A inscrição ocorreu entre 8 de junho de 2023 e 27 de janeiro de 2025. O acompanhamento final ocorreu em 16 de maio de 2025. INTERVENÇÃO: Os pacientes foram randomizados 1:1 para receber dapagliflozina (10 mg por via oral; n = 392) ou placebo uma vez ao dia (n = 392), começando no dia anterior à cirurgia e continuando até o segundo dia pós-operatório (total de 4 doses).</p>
+  <div class="card-footer">
+    <a class="card-link" href="https://doi.org/10.1042/CS20201274" target="_blank">Ler artigo completo no PubMed &rarr;</a>
+    <span class="card-authors">Oosterom-Eijmael MJP, Hulst AH, de Oliveira NPM et al.</span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-meta"><span class="badge badge-rct">Ensaio Clinico</span><span class="badge badge-topic">TEP / TVP</span><span class="card-date">2026 Aug 25</span></div>
+  <h3 class="card-title">Algoritmo YEARS para diagnóstico de suspeita de embolia pulmonar em pacientes com câncer: um ensaio clínico randomizado</h3>
+  <p class="card-journal">JAMA</p>
+  <p class="card-resumo">IMPORTÂNCIA: Embora o algoritmo YEARS seja uma forma segura e eficiente de descartar embolia pulmonar aguda (EP), faltam evidências robustas sobre sua precisão em pacientes com câncer, e as diretrizes atuais sugerem proceder diretamente à angiografia pulmonar por tomografia computadorizada (APTC). OBJETIVO: Comparar a segurança e eficiência do algoritmo YEARS com CTPA apenas para descartar EP aguda em pacientes com câncer ativo. PROJETO, LOCAL E PARTICIPANTES: O estudo Hydra foi um estudo aberto, randomizado, iniciado pelo investigador, de não inferioridade, com julgamento central cego de resultados, realizado de 22 de agosto de 2019 a 21 de agosto de 2025, a data do acompanhamento final. Pacientes com câncer ativo e suspeita de EP aguda foram recrutados em serviços de emergência ou unidades médicas em 21 hospitais na Holanda, Itália, Suíça, Bélgica, França e Espanha. INTERVENÇÕES: Os pacientes foram distribuídos aleatoriamente em uma proporção de 1:1 para receber tratamento diagnóstico pelo algoritmo YEARS (n = 352) - que consiste na avaliação de itens YEARS, níveis de dímero D e realização de CTPA dependente de risco - ou apenas por CTPA (n = 346).</p>
+  <div class="card-footer">
+    <a class="card-link" href="https://doi.org/10.1016/j.annemergmed.2013.08.023" target="_blank">Ler artigo completo no PubMed &rarr;</a>
+    <span class="card-authors">Akerboom B, Martens ESL, Stals MAM et al.</span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-meta"><span class="badge badge-rct">Ensaio Clinico</span><span class="badge badge-topic">Hipertensao</span><span class="card-date">2026 Aug 29</span></div>
+  <h3 class="card-title">Belzutifan mais lenvatinib versus cabozantinib em doentes com carcinoma de células renais avançado previamente tratado (LITESPARK-011): um ensaio de fase 3 aberto, aleatorizado, controlado</h3>
+  <p class="card-journal">Lancet (London, England)</p>
+  <p class="card-resumo">FUNDAMENTO: A identificação de um padrão claro de tratamento para pacientes com carcinoma de células renais de células claras avançado após terapia anti-PD-1 ou anti-PD-L1 justifica estudo como uma necessidade não atendida. Nosso objetivo foi investigar belzutifan mais lenvatinibe versus cabozantinibe em participantes com carcinoma de células renais de células claras previamente tratados com inibidores de checkpoint imunológico. MÉTODOS: LITESPARK-011 é um estudo de fase 3, aberto, randomizado e controlado por ativos, realizado em 184 centros médicos em 25 países na Ásia, Austrália, Europa, América do Norte e América do Sul. Os participantes tinham 18 anos ou mais com carcinoma de células renais de células claras em estágio IV avançado, irressecável, localmente avançado ou metastático, com progressão da doença após terapia anti-PD-1 ou anti-PD-L1 com ou sem inibidores prévios de VEGFR-tirosina-quinase. Os participantes foram designados aleatoriamente (1:1) para receber 120 mg de belzutifan mais 20 mg de lenvatinibe (belzutifan-lenvatinibe) ou 60 mg de cabozantinibe por via oral uma vez ao dia até a progressão da doença ou ocorrência de eventos adversos inaceitáveis.</p>
+  <div class="card-footer">
+    <a class="card-link" href="https://doi.org/10.1016/S0140-6736(26)01089-5" target="_blank">Ler artigo completo no PubMed &rarr;</a>
+    <span class="card-authors">Motzer RJ, McDermott R, Park SH et al.</span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-meta"><span class="badge badge-rct">Ensaio Clinico</span><span class="badge badge-topic">Diabetes tipo 2</span><span class="card-date">2026 Aug 4</span></div>
+  <h3 class="card-title">Orforglipron adicionado à insulina glargina titulada no diabetes tipo 2: o ensaio clínico randomizado ACHIEVE-5</h3>
+  <p class="card-journal">JAMA</p>
+  <p class="card-resumo">IMPORTÂNCIA: Os efeitos do orforglipron, um agonista oral não peptídico do receptor do peptídeo 1 semelhante ao glucagon, adicionado à insulina glargina para o tratamento do diabetes tipo 2 não foram descritos. OBJETIVO: Avaliar a eficácia e segurança do orforglipron adicionado à insulina glargina titulada em adultos com diabetes tipo 2 e controle glicêmico inadequado. PROJETO, LOCAL E PARTICIPANTES: Estudo randomizado, duplo-cego, de fase 3 realizado em 72 locais nos EUA, Brasil, China, Japão e Romênia entre 10 de novembro de 2023 e 15 de setembro de 2025, em adultos com diabetes tipo 2 tomando insulina glargina com ou sem metformina e/ou inibidores do cotransportador de sódio-glicose 2 durante 40 semanas. INTERVENÇÕES: Os participantes foram randomizados (1:1:1:1) para receber doses uma vez ao dia de 3 mg (n = 137), 12 mg (n = 132) ou 36 mg (n = 136) de orforglipron ou placebo (n = 141), além de insulina glargina titulada. PRINCIPAIS RESULTADOS E MEDIDAS: O desfecho primário foi a alteração média da hemoglobina A1c (HbA1c) desde o início até a semana 40 (para as dosagens de 12 mg uma vez ao dia e 36 mg uma vez ao dia de orforglipron).</p>
+  <div class="card-footer">
+    <a class="card-link" href="https://doi.org/10.2337/diacare.26.11.3080" target="_blank">Ler artigo completo no PubMed &rarr;</a>
+    <span class="card-authors">Giorgino F, D'Souza S, Ludwig L et al.</span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-meta"><span class="badge badge-rct">Ensaio Clinico</span><span class="badge badge-topic">Diabetes tipo 2</span><span class="card-date">2026 Aug 4</span></div>
+  <h3 class="card-title">Tratamento com Mazdutida 9 mg para redução de peso em adultos chineses com obesidade: o ensaio clínico randomizado GLORY-2</h3>
+  <p class="card-journal">JAMA</p>
+  <p class="card-resumo">IMPORTÂNCIA: A obesidade é um problema mundial e um importante problema de saúde pública na China. OBJETIVO: Avaliar a eficácia e segurança da mazdutida (um agonista duplo do receptor de glucagon e peptídeo-1 semelhante ao glucagon uma vez por semana) em adultos chineses com obesidade (definido como um índice de massa corporal ≥30). PROJETO, LOCAL E PARTICIPANTES: Um ensaio clínico randomizado, duplo-cego, controlado por placebo, de fase 3, incluindo adultos chineses com ou sem diabetes tipo 2, realizado em 27 hospitais de dezembro de 2023 a novembro de 2025. INTERVENÇÕES: Os participantes foram randomizados em uma proporção de 2:1 para receber uma dose de 9 mg de mazdutida administrada por via subcutânea (n = 308) uma vez por semana ou placebo. (n = 154) como complemento de uma dieta hipocalórica e aumento da atividade física por 60 semanas. PRINCIPAIS RESULTADOS E MEDIDAS: Os resultados coprimários foram a alteração percentual no peso corporal em relação ao valor basal e uma redução de peso de pelo menos 5% na semana 60. As análises de eficácia e segurança foram realizadas em participantes que receberam pelo menos 1 dose do tratamento do estudo.</p>
+  <div class="card-footer">
+    <a class="card-link" href="https://doi.org/10.1016/S2213-8587(23)00388-1" target="_blank">Ler artigo completo no PubMed &rarr;</a>
+    <span class="card-authors">Gao L, Jiang H, Cai H et al.</span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-meta"><span class="badge badge-rct">Ensaio Clinico</span><span class="badge badge-topic">Diabetes tipo 2</span><span class="card-date">2026 Aug</span></div>
+  <h3 class="card-title">Eficácia e segurança da cagrilintida-semaglutida (CagriSema) uma vez por semana em adultos com diabetes tipo 2 inadequadamente controlados com dieta e exercício (REIMAGINE 1): um estudo de fase 3a randomizado, duplo-cego, controlado por placebo</h3>
+  <p class="card-journal">The lancet. Diabetes & endocrinology</p>
+  <p class="card-resumo">FUNDAMENTO: Cagrilintida-semaglutida (CagriSema) é uma nova combinação, uma vez por semana, do agonista do receptor de amilina cagrilintida e do agonista do receptor de GLP-1 semaglutida. Nosso objetivo foi avaliar a eficácia e segurança da cagrilintida-semaglutida em pessoas com diabetes tipo 2 inadequadamente controladas com dieta e exercícios. MÉTODOS: REIMAGINE 1 foi um estudo randomizado, duplo-cego, de grupos paralelos, de fase 3a, realizado em 42 locais (os locais de estudo incluíram hospitais universitários, centros de saúde, centros de pesquisa e outros centros) em seis países. Adultos com 18 anos ou mais com diabetes tipo 2 inadequadamente controlados com dieta e exercício foram randomizados (2:1:2:1) para receber cagrilintida subcutânea 2,4 mg uma vez por semana mais semaglutida 2,4 mg (cagrilintida-semaglutida [2,4 mg cada]), placebo 2,4 mg mais 2,4 mg, cagrilintida 1,0 mg mais semaglutida 1,0 mg (cagrilintida-semaglutida [1,0 mg cada]) ou placebo 1,0 mg mais 1,0 mg por 40 semanas. A randomização foi feita usando um sistema baseado na web com um tamanho de bloco de seis e estratificado de acordo com a HbA1c.</p>
+  <div class="card-footer">
+    <a class="card-link" href="https://doi.org/10.1016/S2213-8587(26)00126-9" target="_blank">Ler artigo completo no PubMed &rarr;</a>
+    <span class="card-authors">Aroda VR, Buzzetti R, Dalskov SM et al.</span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-meta"><span class="badge badge-rct">Ensaio Clinico</span><span class="badge badge-topic">Pneumonia</span><span class="card-date">2026 Jul 17</span></div>
+  <h3 class="card-title">Resultado da terapia precoce com corticosteroides de curta duração na pneumonia grave adquirida na comunidade: um ensaio clínico randomizado</h3>
+  <p class="card-journal">Archives of disease in childhood</p>
+  <p class="card-resumo">OBJETIVO: Avaliar a eficácia e segurança da dexametasona adjuvante em crianças com pneumonia adquirida na comunidade (PAC) grave. PROJETO: Ensaio duplo-cego, randomizado e controlado por placebo. LOCAL: Hospital terciário. PACIENTES: Crianças de 2 meses a 15 anos com diagnóstico de PAC grave. INTERVENÇÃO: Os participantes foram randomizados para receber dexametasona intravenosa ou placebo por 5 dias, além da terapia antimicrobiana padrão. MEDIDAS PRINCIPAIS DO RESULTADO: O resultado primário foi a falha do tratamento em 72 horas. Os desfechos secundários incluíram progressão radiográfica, insuficiência respiratória, necessidade de ventilação, choque, mortalidade, tempo de internação hospitalar, readmissão de 4 semanas e marcadores inflamatórios. RESULTADOS: Foram inscritas 132 crianças (66 por grupo). A falha do tratamento em 72 horas ocorreu em 25,8% no grupo de dexametasona versus 60,6% no grupo placebo (HR 0,32; IC 95% 0,18 a 0,57; p=0,001). A piora radiográfica foi significativamente menor no grupo dexametasona (22,7% vs 57,6%; OR 0,22; p=0,001), assim como a progressão para insuficiência respiratória (10,6% vs 31,8%; OR 0,25; p=0,004). Não foram observadas diferenças significativas na necessidade de ventilação, desenvolvimento de choque, mortalidade, internação hospitalar ou taxas de readmissão.</p>
+  <div class="card-footer">
+    <a class="card-link" href="https://doi.org/10.1136/archdischild-2025-328990" target="_blank">Ler artigo completo no PubMed &rarr;</a>
+    <span class="card-authors">Singh A, Biswal N, DelhiKumar CG et al.</span>
+  </div>
+</div>
+  </div>
+
+  <div id="aba-diretrizes" class="secao">
+    <div class="secao-titulo">
+      <h2>Diretrizes recentes</h2>
+      <span class="qtd">6 diretrizes encontradas</span>
+    </div>
+    <p style="font-size:.87rem;color:var(--text2);margin-bottom:22px;line-height:1.7;">
+      Selecao de diretrizes e recomendacoes clinicas publicadas recentemente em medicina interna.
+    </p>
+    
+<div class="card">
+  <div class="card-meta"><span class="badge badge-guide">Diretriz</span><span class="badge badge-topic">Clinica Medica</span><span class="card-date">2025 Jun 10</span></div>
+  <h3 class="card-title">2025 Diretriz ACC/AHA/ACEP/NAEMSP/SCAI para o tratamento de pacientes com síndromes coronarianas agudas: um relatório do Comitê Conjunto de Diretrizes de Prática Clínica do American College of Cardiology/American Heart Association</h3>
+  <p class="card-journal">Journal of the American College of Cardiology</p>
+  <p class="card-resumo">OBJETIVO: A "Diretriz ACC/AHA/ACEP/NAEMSP/SCAI 2025 para o manejo de pacientes com síndromes coronarianas agudas" incorpora novas evidências desde a "Diretriz ACCF/AHA 2013 para o manejo do infarto do miocárdio com elevação do segmento ST" e a correspondente "Diretriz AHA/ACC 2014 para o tratamento de pacientes com síndromes coronarianas agudas sem elevação do segmento ST" e a "Atualização focada em ACC/AHA/SCAI 2015 sobre intervenção coronária percutânea primária para pacientes com infarto do miocárdio com elevação do segmento ST." As "Diretrizes ACC/AHA/ACEP/NAEMSP/SCAI 2025 para o manejo de pacientes com síndromes coronarianas agudas" e as "Diretrizes ACC/AHA/SCAI 2021 para revascularização da artéria coronária" retiram e substituem, respectivamente, a "Atualização focada nas diretrizes ACC/AHA 2016 sobre a duração da terapia antiplaquetária dupla em pacientes com doença arterial coronariana". MÉTODOS: Uma pesquisa bibliográfica abrangente foi realizada de julho de 2023 a abril de 2024. Foram identificados estudos clínicos, revisões sistemáticas e meta-análises e outras evidências realizadas em participantes humanos que foram publicadas em inglês no MEDLINE (através do PubMed), EMBASE, Biblioteca Cochrane, Agency for Healthcare Research and Quality e outras bases de dados selecionadas relevantes para esta diretriz.</p>
+  <div class="card-footer">
+    <a class="card-link" href="https://doi.org/10.1016/j.jacc.2024.11.009" target="_blank">Ler artigo completo no PubMed &rarr;</a>
+    <span class="card-authors">Rao SV, O'Donoghue ML, Ruel M et al.</span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-meta"><span class="badge badge-guide">Diretriz</span><span class="badge badge-topic">Clinica Medica</span><span class="card-date">2025 Oct</span></div>
+  <h3 class="card-title">2025 AHA/ACC/AANP/AAPA/ABC/ACCP/ACPM/AGS/AMA/ASPC/NMA/PCNA/SGIM Diretriz para prevenção, detecção, avaliação e tratamento da hipertensão arterial em adultos: um relatório do American College of Cardiology/American Heart Association Joint Committee on Clinical Practice Guidelines</h3>
+  <p class="card-journal">Hypertension (Dallas, Tex. : 1979)</p>
+  <p class="card-resumo">OBJETIVO: A "Diretriz 2025 AHA/ACC/AANP/AAPA/ABC/ACCP/ACPM/AGS/AMA/ASPC/NMA/PCNA/SGIM para a prevenção, detecção, avaliação e tratamento da hipertensão arterial em adultos" retira e substitui a "Diretriz 2017 ACC/AHA/AAPA/ABC/ACPM/AGS/APhA/ASH/ASPC/NMA/PCNA para o Prevenção, detecção, avaliação e tratamento da hipertensão arterial em adultos." MÉTODOS: Uma pesquisa bibliográfica abrangente foi realizada de dezembro de 2023 a junho de 2024 para identificar estudos clínicos, revisões e outras evidências realizadas em seres humanos que foram publicados desde fevereiro de 2015 em inglês no MEDLINE (através do PubMed), EMBASE, Biblioteca Cochrane, Agência de Pesquisa e Qualidade em Saúde e outras bases de dados selecionadas relevantes para esta diretriz. ESTRUTURA: O foco desta diretriz de prática clínica é criar um documento vivo e funcional que atualize o conhecimento atual no campo da hipertensão arterial, destinado a todos os profissionais de atenção primária e médicos especializados que cuidam de pacientes com hipertensão.</p>
+  <div class="card-footer">
+    <a class="card-link" href="https://doi.org/10.1161/HYP.0000000000000249" target="_blank">Ler artigo completo no PubMed &rarr;</a>
+    <span class="card-authors">Writing Committee Members*, Jones DW, Ferdinand KC et al.</span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-meta"><span class="badge badge-guide">Diretriz</span><span class="badge badge-topic">Sepse</span><span class="card-date">2025 Mar 1</span></div>
+  <h3 class="card-title">Uma atualização focada nas Diretrizes de Prática Clínica para Prevenção e Tratamento da Dor, Ansiedade, Agitação/Sedação, Delirium, Imobilidade e Perturbação do Sono em Pacientes Adultos na UTI</h3>
+  <p class="card-journal">Critical care medicine</p>
+  <p class="card-resumo">JUSTIFICATIVA: Adultos gravemente enfermos correm o risco de apresentar uma variedade de sintomas angustiantes e consequentes, tanto durante quanto após uma internação na UTI. O manejo desses sintomas pode influenciar diretamente os resultados. OBJETIVOS: O objetivo foi atualizar e ampliar as Diretrizes de Prática Clínica de 2018 da Society of Critical Care Medicine para a Prevenção e Tratamento da Dor, Agitação/Sedação, Delirium, Imobilidade e Perturbação do Sono em Pacientes Adultos na UTI. DESENHO DO PAINEL: O grupo de trabalho de diretrizes inclusivas interprofissionais foi composto por 24 indivíduos, incluindo enfermeiros, médicos, farmacêuticos, fisioterapeutas, psicólogos e sobreviventes de UTI. A força-tarefa desenvolveu recomendações baseadas em evidências usando a abordagem de Classificação de Recomendações, Avaliação, Desenvolvimento e Avaliação (GRADE). As políticas de conflito de interesses foram rigorosamente seguidas em todas as fases das diretrizes, incluindo a seleção e votação do grupo de trabalho. MÉTODOS: A força-tarefa se concentrou em cinco áreas principais de conteúdo referentes a pacientes adultos de UTI: ansiedade (novo tópico), agitação/sedação, delírio, imobilidade e perturbação do sono.</p>
+  <div class="card-footer">
+    <a class="card-link" href="https://doi.org/10.1097/CCM.0000000000006574" target="_blank">Ler artigo completo no PubMed &rarr;</a>
+    <span class="card-authors">Lewis K, Balas MC, Stollings JL et al.</span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-meta"><span class="badge badge-guide">Diretriz</span><span class="badge badge-topic">Sepse</span><span class="card-date">2026 Aug 24</span></div>
+  <h3 class="card-title">Diretrizes de prática clínica da Infectious Diseases Society of America (IDSA): Diretrizes de 2025 sobre manejo e tratamento de infecções complicadas do trato urinário - Duração de antibióticos para ITU complicada</h3>
+  <p class="card-journal">Clinical infectious diseases : an official publica...</p>
+  <p class="card-resumo">FUNDAMENTO: Estas recomendações fornecem orientação sobre a duração ideal dos antibióticos em pacientes com infecção complicada do trato urinário (ITUc), especialmente na presença de bacteremia Gram-negativa associada. MÉTODOS: As recomendações do painel são baseadas em evidências derivadas de revisões sistemáticas da literatura que se concentraram em benefícios e danos comparativos de duração mais curta (5-7 dias) vs prolongada (10-14 dias) de antibióticos, incluindo publicações desde 2000. Essas recomendações aderem a uma metodologia padronizada para classificar a certeza da evidência e a força da recomendação de acordo com a abordagem GRADE (Grading of Recommendations Assessment, Development, and Evaluation). RESULTADOS: O painel de diretrizes sugere que os pacientes com ITUc que estão melhorando com uma terapia eficaz podem ser tratados com antimicrobianos de duração mais curta (5-7 dias de fluoroquinolona ou 7 dias de não fluoroquinolona) em vez de cursos mais longos de antibióticos, independentemente da presença de bacteremia Gram-negativa associada. Um agente antimicrobiano eficaz atinge níveis terapêuticos na urina e nos tecidos relevantes e é ativo contra o patógeno causador.</p>
+  <div class="card-footer">
+    <a class="card-link" href="https://doi.org/10.1093/cid/ciaf462" target="_blank">Ler artigo completo no PubMed &rarr;</a>
+    <span class="card-authors">Trautner BW, Cortés-Penfield NW, Gupta K et al.</span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-meta"><span class="badge badge-meta">Revisao Sistematica</span><span class="badge badge-topic">ICC</span><span class="card-date">2025 Aug 10</span></div>
+  <h3 class="card-title">Farmacoterapia para tratamento da obesidade em adultos: atualização das diretrizes de prática clínica de 2025</h3>
+  <p class="card-journal">CMAJ : Canadian Medical Association journal = jour...</p>
+  <p class="card-resumo">FUNDAMENTO: A farmacoterapia é um componente chave do manejo abrangente da obesidade, juntamente com a terapia comportamental e a cirurgia metabólica e bariátrica. Nesta diretriz, atualizamos as recomendações de farmacoterapia na diretriz de prática clínica canadense de 2020 sobre obesidade em adultos e na revisão de farmacoterapia para controle da obesidade de 2022 para fornecer recomendações atuais aos médicos sobre a eficácia, segurança e uso apropriado da farmacoterapia no tratamento da obesidade em adultos. MÉTODOS: Esta atualização das diretrizes segue a mesma metodologia da diretriz canadense de 2020 sobre obesidade em adultos, aderindo ao instrumento Avaliação das Diretrizes para Pesquisa e Avaliação e usando a estrutura Shekelle para avaliar e classificar evidências e formular recomendações. Com base na pesquisa realizada para a revisão da farmacoterapia de 2022, conduzimos uma revisão sistemática da literatura (datas de pesquisa de janeiro de 2022 a julho de 2024), complementada por ensaios relevantes publicados até maio de 2025, para identificar estudos que avaliam a eficácia da farmacoterapia no controle de peso. Também realizamos 13 pesquisas direcionadas sobre o manejo de complicações relacionadas ao peso em 13 subpopulações com importantes problemas de saúde relacionados à adiposidade.</p>
+  <div class="card-footer">
+    <a class="card-link" href="https://doi.org/10.1016/j.jacc.2025.05.024" target="_blank">Ler artigo completo no PubMed &rarr;</a>
+    <span class="card-authors">Pedersen SD, Manjoo P, Dash S et al.</span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-meta"><span class="badge badge-guide">Diretriz</span><span class="badge badge-topic">ICC</span><span class="card-date">2025 Mar</span></div>
+  <h3 class="card-title">Diretriz de prática clínica de 2025 da Sociedade Europeia de Medicina Intensiva (ESICM) sobre fluidoterapia em pacientes adultos gravemente enfermos: parte 2 - o volume de fluidos de reanimação</h3>
+  <p class="card-journal">Intensive care medicine</p>
+  <p class="card-resumo">OBJETIVO: Esta diretriz da Sociedade Europeia de Medicina Intensiva (ESICM) fornece recomendações baseadas em evidências sobre o volume de fluido de reanimação precoce para pacientes adultos gravemente enfermos. MÉTODOS: Um painel internacional de especialistas desenvolveu a diretriz, com foco no volume de ressuscitação com fluidos em pacientes adultos gravemente enfermos com insuficiência circulatória. Utilizando o formato PICO, foram formuladas perguntas e a abordagem de Avaliação, Desenvolvimento e Avaliação de Classificação de Recomendações (GRADE) foi aplicada para avaliar evidências e formular recomendações. RESULTADOS: Em adultos com sepse ou choque séptico, a diretriz sugere a administração de até 30 ml/kg de cristaloides intravenosos na fase inicial, com ajustes baseados no contexto clínico e reavaliações frequentes (muito baixa qualidade de evidência). Sugerimos utilizar uma abordagem individualizada na fase de otimização (certeza de evidência muito baixa). Nenhuma recomendação poderia ser feita a favor ou contra estratégias fluidas restritivas ou liberais na fase de otimização (certeza moderada de nenhum efeito).</p>
+  <div class="card-footer">
+    <a class="card-link" href="https://doi.org/10.1164/rccm.201603-0645OC" target="_blank">Ler artigo completo no PubMed &rarr;</a>
+    <span class="card-authors">Mekontso Dessap A, AlShamsi F, Belletti A et al.</span>
+  </div>
+</div>
+  </div>
+
+  <div id="aba-arquivo" class="secao">
+    <div class="secao-titulo">
+      <h2>Arquivo de edicoes</h2>
+      <span class="qtd">historico completo</span>
+    </div>
+    
+<a class="arquivo-card" href="2026-10-12.html">
+  <div class="arquivo-data">12/10/2026</div>
+  <div class="arquivo-label">Edicao 12/10</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-10-05.html">
+  <div class="arquivo-data">05/10/2026</div>
+  <div class="arquivo-label">Edicao 05/10</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-09-28.html">
+  <div class="arquivo-data">28/09/2026</div>
+  <div class="arquivo-label">Edicao 28/09</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-09-21.html">
+  <div class="arquivo-data">21/09/2026</div>
+  <div class="arquivo-label">Edicao 21/09</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-09-14.html">
+  <div class="arquivo-data">14/09/2026</div>
+  <div class="arquivo-label">Edicao 14/09</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-09-07.html">
+  <div class="arquivo-data">07/09/2026</div>
+  <div class="arquivo-label">Edicao 07/09</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-08-31.html">
+  <div class="arquivo-data">31/08/2026</div>
+  <div class="arquivo-label">Edicao 31/08</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-08-24.html">
+  <div class="arquivo-data">24/08/2026</div>
+  <div class="arquivo-label">Edicao 24/08</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-08-17.html">
+  <div class="arquivo-data">17/08/2026</div>
+  <div class="arquivo-label">Edicao 17/08</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-08-10.html">
+  <div class="arquivo-data">10/08/2026</div>
+  <div class="arquivo-label">Edicao 10/08</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-08-03.html">
+  <div class="arquivo-data">03/08/2026</div>
+  <div class="arquivo-label">Edicao 03/08</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-07-27.html">
+  <div class="arquivo-data">27/07/2026</div>
+  <div class="arquivo-label">Edicao 27/07</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-07-20.html">
+  <div class="arquivo-data">20/07/2026</div>
+  <div class="arquivo-label">Edicao 20/07</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-07-13.html">
+  <div class="arquivo-data">13/07/2026</div>
+  <div class="arquivo-label">Edicao 13/07</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-07-06.html">
+  <div class="arquivo-data">06/07/2026</div>
+  <div class="arquivo-label">Edicao 06/07</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-06-29.html">
+  <div class="arquivo-data">29/06/2026</div>
+  <div class="arquivo-label">Edicao 29/06</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-06-22.html">
+  <div class="arquivo-data">22/06/2026</div>
+  <div class="arquivo-label">Edicao 22/06</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-06-15.html">
+  <div class="arquivo-data">15/06/2026</div>
+  <div class="arquivo-label">Edicao 15/06</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-06-08.html">
+  <div class="arquivo-data">08/06/2026</div>
+  <div class="arquivo-label">Edicao 08/06</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-06-01.html">
+  <div class="arquivo-data">01/06/2026</div>
+  <div class="arquivo-label">Edicao 01/06</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-05-25.html">
+  <div class="arquivo-data">25/05/2026</div>
+  <div class="arquivo-label">Edicao 25/05</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-05-18.html">
+  <div class="arquivo-data">18/05/2026</div>
+  <div class="arquivo-label">Edicao 18/05</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-05-11.html">
+  <div class="arquivo-data">11/05/2026</div>
+  <div class="arquivo-label">Edicao 11/05</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+<a class="arquivo-card" href="2026-05-10.html">
+  <div class="arquivo-data">10 May 2026</div>
+  <div class="arquivo-label">Edicao 10/05</div>
+  <div class="arquivo-qtd">8 artigos</div>
+</a>
+  </div>
+
+</div>
+
+<div class="rodape">
+  <div>&copy; ClinicaUpdate &middot; gerado automaticamente via PubMed</div>
+  <div><a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank">PubMed</a> &middot; atualizado toda segunda-feira as 3h</div>
+</div>
+
+<script>
+function mostrarAba(id, el) {
+  var secoes = document.querySelectorAll('.secao');
+  for (var i = 0; i < secoes.length; i++) secoes[i].classList.remove('ativa');
+  var abas = document.querySelectorAll('.aba');
+  for (var j = 0; j < abas.length; j++) abas[j].classList.remove('ativa');
+  document.getElementById('aba-' + id).classList.add('ativa');
+  el.classList.add('ativa');
+}
+</script>
+
+</body>
+</html>
